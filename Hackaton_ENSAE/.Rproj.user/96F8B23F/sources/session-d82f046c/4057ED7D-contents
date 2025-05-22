@@ -1,0 +1,107 @@
+# Interface principale avec la navbar
+
+fluidPage(
+  useShinyjs(), # Pour les manipulations DOM dynamiques
+  
+  # Interface d'authentification (s'affiche au-dessus de tout)
+  uiOutput("auth_screen"),
+  
+  # Application principale
+  bslib::page_navbar(
+    title = div(
+      img(src = "images/ensae.png", height = "80px"),
+      class = "navbar-logo"
+    ),
+    window_title = "Élections ENSAE 2025",
+    id = "main_navbar",
+    navbar_options = bslib::navbar_options(
+      position = "fixed-top",
+      collapsible = TRUE
+    ),
+    theme = bslib::bs_theme(
+      version = 5,
+      bootswatch = "flatly",
+      base_font = font_google("Roboto"),
+      heading_font = font_google("Roboto"),
+      "nav-tab-font-size" = "1.3rem",
+      "nav-link-padding-y" = "1.5rem",
+      "navbar-padding-y" = "0.5rem"
+    ),
+    header = tags$head(
+      tags$link(rel = "stylesheet", type = "text/css", href = "css/main.css"),
+      tags$script(src = "js/mobile.js"),
+      # Activer le menu collapse pour la navigation verticale
+      tags$script(HTML("
+        $(document).ready(function() {
+          // S'assurer que le collapse est actif pour permettre la navigation verticale
+          if (!$('.navbar-collapse').hasClass('collapse')) {
+            $('.navbar-collapse').addClass('collapse');
+          }
+          
+          // Ajouter un bouton toggler si non présent
+          if ($('.navbar-toggler').length === 0) {
+            var toggler = '<button class=\"navbar-toggler\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\"><span class=\"navbar-toggler-icon\"></span></button>';
+            $('.navbar-brand').after(toggler);
+          }
+        });
+      "))
+    ),
+    
+    # Panneau d'authentification
+    bslib::nav_panel("Authentification", icon = icon("user-shield"),
+      source("ui/ui_auth.R")$value
+    ),
+    
+    # Panneau des délégués de classe
+    bslib::nav_panel("Délégués de Classe", icon = icon("user-graduate"),
+                     source("ui/ui_delegates.R")$value
+    ),
+    
+    # Panneau des candidats
+    bslib::nav_panel("Candidats", icon = icon("user-tie"), 
+      source("ui/ui_candidates.R")$value
+    ),
+    
+    # Panneau de vote avec onglets dynamiques par poste
+    bslib::nav_panel("Vote", icon = icon("check-to-slot"),
+      source("ui/ui_vote.R")$value
+    ),
+    
+    
+    
+    # Panneau des statistiques avancées
+    bslib::nav_panel("Statistiques", icon = icon("chart-pie"),
+                     source("ui/ui_stats.R")$value
+    ),
+    
+    # Panneau des résultats
+    bslib::nav_panel("Résultats", icon = icon("chart-column"),
+      source("ui/ui_results.R")$value
+    ),
+    
+    # Panneau de boîte à idées
+    bslib::nav_panel("Boîte à Idées", icon = icon("lightbulb"),
+      source("ui/ui_ideas.R")$value
+    ),
+    
+    # Menu d'options
+    bslib::nav_menu("Options", icon = icon("cog"),
+      bslib::nav_panel("Version Mobile", 
+        div(class = "well-panel",
+          h4("Version Mobile"),
+          p("Accédez à la version optimisée pour les appareils mobiles."),
+          actionButton("openMobile", "Ouvrir la version mobile", 
+            class = "btn-primary", 
+            onclick = "window.open('mobile.html', '_blank')")
+        )
+      ),
+      bslib::nav_panel("À propos", 
+        div(class = "well-panel",
+          h4("À propos de l'application"),
+          p("Application de gestion électorale développée dans le cadre du Hackathon ENSAE."),
+          p("Version 1.0")
+        )
+      )
+    )
+  )
+) 

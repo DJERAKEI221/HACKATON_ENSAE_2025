@@ -1,0 +1,81 @@
+# server/server_auth.R - Module d'authentification
+
+# Interface d'authentification
+output$auth_screen <- renderUI({
+  # Cacher complètement l'interface d'authentification si déjà authentifié
+  if(user$authenticated) {
+    return(NULL)
+  }
+  
+  # Sinon, afficher l'interface d'authentification
+  source("ui/ui_auth.R")$value
+})
+
+# Authentification
+observeEvent(input$login, {
+  req(input$lastName, input$firstName, input$accessCode, input$studentYear)
+  
+  # Dans une implémentation réelle, vérifier en base de données
+  # voter <- dbGetQuery(con, "SELECT * FROM voters WHERE last_name = ? AND first_name = ? AND access_code = ?",
+  #                     params = list(input$lastName, input$firstName, input$accessCode))
+  # if(nrow(voter) > 0) { ... }
+  
+  # Simulation pour le hackathon
+  user$authenticated <- TRUE
+  user$id <- paste(input$lastName, input$firstName, sep = "_")
+  user$year <- input$studentYear
+  
+  # Afficher confirmation et boutons de navigation
+  show("auth_success")
+  show("auth_nav_buttons")
+  
+  # Activer l'interface de vote
+  hide("login_warning")
+  show("vote_interface")
+  
+  # Montrer une notification de succès
+  showNotification("Authentification réussie. Vous pouvez maintenant accéder à toutes les fonctionnalités.", 
+                  type = "message", duration = 5)
+  
+  # Après 2 secondes, masquer l'écran d'authentification et naviguer vers la page d'accueil
+  shinyjs::delay(2000, {
+    # Masquer l'onglet d'authentification
+    hideTab(inputId = "main_navbar", target = "Authentification")
+    # Naviguer vers la page d'accueil
+    updateNavbarPage(session, "main_navbar", selected = "Accueil")
+  })
+})
+
+# Affichage d'avertissement si non connecté
+output$login_warning <- renderUI({
+  if(!user$authenticated) {
+    div(class = "alert alert-warning",
+        icon("exclamation-triangle-fill"),
+        "Veuillez vous authentifier avant de voter",
+        actionButton("goto_auth", "Se connecter", 
+                    class = "btn-primary btn-sm ms-3")
+    )
+  }
+})
+
+# Navigation après authentification
+observeEvent(input$goto_home, {
+  updateNavbarPage(session, "main_navbar", selected = "Accueil")
+})
+
+observeEvent(input$goto_candidates, {
+  updateNavbarPage(session, "main_navbar", selected = "Candidats")
+})
+
+observeEvent(input$goto_vote, {
+  updateNavbarPage(session, "main_navbar", selected = "Vote")
+})
+
+observeEvent(input$goto_results, {
+  updateNavbarPage(session, "main_navbar", selected = "Résultats")
+})
+
+# Redirection vers l'authentification
+observeEvent(input$goto_auth, {
+  updateNavbarPage(session, "main_navbar", selected = "Authentification")
+})

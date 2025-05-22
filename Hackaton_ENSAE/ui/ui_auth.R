@@ -1,0 +1,94 @@
+div(class = "fullscreen-auth",
+  div(class = "auth-card-container",
+    div(class = "auth-card",
+      div(class = "auth-card-header text-center",
+        img(src = "images/ensae.png", height = "80px", class = "mb-3"),
+        div(class = "ensae-motto", 
+          HTML("&ldquo;Statistiques en main, futur en vue&rdquo;")
+        ),
+        div(class = "alert alert-info", 
+          HTML("<i class='fa fa-vote-yea me-2'></i><strong>Election des membres du bureau de l'AES</strong>")
+        )
+      ),
+      div(class = "auth-card-body",
+        div(class = "form-group mb-4",
+          div(class = "row",
+            div(class = "col-md-6",
+              tags$label("Nom", class = "form-label"),
+              textInput("lastName", NULL, 
+                placeholder = "Entrez votre nom",
+                width = "100%")
+            ),
+            div(class = "col-md-6",
+              tags$label("Prénom", class = "form-label"),
+              textInput("firstName", NULL, 
+                placeholder = "Entrez votre prénom",
+                width = "100%")
+            )
+          )
+        ),
+        div(class = "form-group mb-4",
+          tags$label("Identifiant", class = "form-label"),
+          passwordInput("accessCode", NULL, 
+            placeholder = "Entrez votre code personnel",
+            width = "100%")
+        ),
+        div(class = "form-group mb-4",
+          tags$label("Classe", class = "form-label"),
+          selectInput("studentYear", NULL, 
+            choices = c("AS1", "AS2", "AS3", "ISEP1", "ISEP2", "ISEP3", "ISE1", "ISE2", "ISE3", "Masters"),
+            width = "100%")
+        ),
+        div(class = "d-grid gap-2",
+          actionButton("login", "Accéder au système", 
+            icon = icon("right-to-bracket"),
+            class = "btn-access btn-lg")
+        ),
+        hidden(
+          div(id = "auth_success", class = "alert alert-success mt-4 mb-4",
+            icon("check-circle"), 
+            "Authentification réussie! Accès au système autorisé."
+          )
+        ),
+        hidden(
+          div(id = "auth_nav_buttons", class = "mt-4",
+            h4("Naviguer vers:", class = "text-center mb-3"),
+            div(class = "row",
+              column(3, 
+                div(class = "d-grid",
+                  actionButton("goto_home", "Accueil", 
+                    icon = icon("home"),
+                    class = "btn btn-info btn-lg")
+                )
+              ),
+              column(3, 
+                div(class = "d-grid",
+                  actionButton("goto_candidates", "Candidats", 
+                    icon = icon("user-tie"),
+                    class = "btn btn-primary btn-lg")
+                )
+              ),
+              column(3, 
+                div(class = "d-grid",
+                  actionButton("goto_vote", "Voter", 
+                    icon = icon("check-to-slot"),
+                    class = "btn btn-success btn-lg")
+                )
+              ),
+              column(3, 
+                div(class = "d-grid",
+                  actionButton("goto_results", "Résultats", 
+                    icon = icon("chart-column"),
+                    class = "btn btn-warning btn-lg")
+                )
+              )
+            )
+          )
+        )
+      ),
+      div(class = "auth-card-footer text-center mt-4",
+        p(class = "mb-0", "© ENSAE 2025 - Système électoral sécurisé")
+      )
+    )
+  )
+)
