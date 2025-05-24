@@ -483,14 +483,6 @@ div(class = "container delegates-container",
         'font-size': '1.2rem'
       });
       
-      // Maintenir le style bleu et gras lors du changement d'onglet
-      $(document).on('shown.bs.tab', '#delegate_type a[data-toggle="tab"]', function() {
-        $('.delegate-tab-title').css({
-          'color': '#3f51b5',
-          'font-weight': 'bold',
-          'font-size': '1.2rem'
-        });
-      });
       
       // Animation pour les résultats
       $('.results-title').each(function() {

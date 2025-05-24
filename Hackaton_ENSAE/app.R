@@ -1,5 +1,6 @@
 # app.R - Point d'entrée de l'application électorale ENSAE
 
+
 source("global.R")
 ui <- source("ui/ui_main.R")$value
 server <- source("server/server_main.R")$value
