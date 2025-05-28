@@ -1,0 +1,107 @@
+.stats-container {
+  padding-bottom: 40px;
+}
+
+.stats-banner {
+  background: linear-gradient(135deg, #3f51b5, #303f9f);
+  color: white !important;
+  transition: all 0.3s ease;
+}
+
+.stats-banner:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.chart-container {
+  transition: all 0.3s ease;
+}
+
+.chart-container:hover {
+  transform: translateY(-3px);
+}
+
+/* Styles pour les cartes de compteurs */
+.counter-card {
+  transition: all 0.3s ease;
+  border-left-width: 4px;
+  border-left-style: solid;
+}
+
+.counter-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
+}
+
+.counter-icon {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.counter-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.counter-label {
+  font-size: 0.85rem;
+}
+
+/* Couleurs de fond pour les icônes */
+.bg-primary-light { background-color: rgba(63, 81, 181, 0.1); }
+.bg-success-light { background-color: rgba(63, 81, 181, 0.1); }
+.bg-info-light { background-color: rgba(63, 81, 181, 0.1); }
+.bg-warning-light { background-color: rgba(63, 81, 181, 0.1); }
+
+/* Styles de bordures gauches */
+.border-left-primary { border-left-color: #dee2e6; }
+.border-left-success { border-left-color: #dee2e6; }
+.border-left-info { border-left-color: #dee2e6; }
+.border-left-warning { border-left-color: #dee2e6; }
+
+/* Animation pour les chiffres */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.counter-value {
+  animation: countUp 1s ease-out forwards;
+}
+
+/* Style des tableaux */
+.dataTables_wrapper {
+  padding: 0;
+}
+
+table.dataTable {
+  border-collapse: collapse !important;
+}
+
+table.dataTable thead th {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6 !important;
+}
+
+table.dataTable tbody tr:hover {
+  background-color: rgba(0,0,0,0.01);
+}
+
+/* Responsive design ajustements */
+@media (max-width: 768px) {
+  .counter-card {
+    margin-bottom: 15px;
+  }
+  
+  .counter-icon {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .counter-value {
+    font-size: 1.5rem;
+  }
+}

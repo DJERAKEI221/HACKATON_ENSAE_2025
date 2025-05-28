@@ -1,0 +1,97 @@
+.ideas-container {
+  padding-bottom: 40px;
+}
+
+.ideas-banner {
+  background: linear-gradient(135deg, #17a2b8, #20c997);
+  transition: all 0.3s ease;
+}
+
+.ideas-banner:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.avatar-circle {
+  width: 60px;
+  height: 60px;
+  background-color: #007bff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.idea-textarea-container {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 2px;
+  transition: all 0.3s ease;
+}
+
+.idea-textarea-container:focus-within {
+  background-color: #e9f8fb;
+  box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
+}
+
+#idea_text {
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.popular-idea {
+  background-color: #fff;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.popular-idea:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important;
+}
+
+/* Style pour les suggestions dans la liste */
+.idea-card {
+  border-left: 4px solid #dee2e6;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+.idea-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
+}
+
+.idea-card.interface { border-left-color: #dee2e6; }
+.idea-card.organisation { border-left-color: #dee2e6; }
+.idea-card.candidats { border-left-color: #dee2e6; }
+.idea-card.processus { border-left-color: #dee2e6; }
+.idea-card.autre { border-left-color: #dee2e6; }
+
+.idea-meta {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.idea-category {
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}

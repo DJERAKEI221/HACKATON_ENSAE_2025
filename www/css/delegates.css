@@ -1,0 +1,424 @@
+/* Styles améliorés pour les onglets et conteneurs */
+.delegates-container {
+  animation: fadeIn 0.8s ease-in-out;
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+  display: block !important;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Style pour les onglets de délégués */
+.delegate-tab-active {
+  background: linear-gradient(135deg, #3f51b5, #303f9f) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 8px 8px 0 0 !important;
+  position: relative;
+  z-index: 5;
+  padding: 15px 20px !important;
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+  font-weight: bold !important;
+  transform: translateY(-5px);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+/* Rendre les onglets plus visibles */
+#delegate_type .nav-tabs .nav-link {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #3f51b5;
+  border: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+}
+
+#delegate_type .nav-tabs .nav-link.active {
+  background-color: #3f51b5 !important;
+  color: white !important;
+  border-color: #3f51b5 !important;
+}
+
+.nav-tabs .nav-link {
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+  margin-right: 5px;
+  border-radius: 8px 8px 0 0;
+  font-weight: 500;
+  padding: 12px 20px !important;
+}
+
+.nav-tabs .nav-link:hover:not(.active) {
+  background-color: #e9ecef;
+  border-color: #ced4da;
+  transform: translateY(-3px);
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+}
+
+/* Indicateur de sélection */
+.delegate-tab-active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #007bff, #00c6ff);
+}
+
+/* Container des onglets */
+#delegate_type > .tab-content {
+  border: none;
+  padding: 25px;
+  background-color: white;
+  border-radius: 0 8px 8px 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: left !important;
+}
+
+/* Style pour les onglets non actifs */
+#delegate_type > ul > li > a:not(.delegate-tab-active) {
+  color: #495057;
+}
+
+/* Styles pour les cartes */
+.delegate-card {
+  border: none !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 20px rgba(63, 81, 181, 0.12) !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+
+.class-selector h4 {
+  display: inline-block;
+  position: relative;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+
+.delegate-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(63, 81, 181, 0.2) !important;
+}
+
+.delegate-card-header {
+  background: linear-gradient(135deg, #3f51b5, #303f9f) !important;
+  color: white !important;
+  border-bottom: none !important;
+  padding: 20px !important;
+}
+
+.delegate-card-header h3 {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.delegate-card-header .icon {
+  font-size: 2rem;
+  background: rgba(255,255,255,0.15);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Styles pour les boutons de classe */
+.class-btn {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin: 5px;
+  border: none;
+  background-color: #f0f4f8;
+  color: #495057;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.class-btn:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+  z-index: 5;
+}
+
+.class-btn.active {
+  font-weight: 600;
+  background: linear-gradient(135deg, #3f51b5, #303f9f);
+  color: white;
+  box-shadow: 0 5px 12px rgba(63, 81, 181, 0.3);
+  transform: translateY(-4px) scale(1.05);
+  border: 2px solid #3f51b5;
+  position: relative;
+  z-index: 10;
+}
+
+/* Animation lors de la sélection */
+.class-btn.active::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 6px;
+  animation: pulse 1.5s infinite;
+  z-index: -1;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(63, 81, 181, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(63, 81, 181, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(63, 81, 181, 0); }
+}
+
+.results-class-btn {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin: 5px;
+  border: none;
+  background-color: #f0f8f4;
+  color: #495057;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.results-class-btn:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+  z-index: 5;
+}
+
+.results-class-btn.active {
+  font-weight: 600;
+  background: linear-gradient(135deg, #3f51b5, #303f9f);
+  color: white;
+  box-shadow: 0 5px 12px rgba(63, 81, 181, 0.3);
+  transform: translateY(-4px) scale(1.05);
+  border: 2px solid #3f51b5;
+  position: relative;
+  z-index: 10;
+}
+
+/* Animation lors de la sélection */
+.results-class-btn.active::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 6px;
+  animation: pulse 1.5s infinite;
+  z-index: -1;
+}
+
+/* Style pour les boutons de vote */
+.btn-vote {
+  background: linear-gradient(135deg, #3f51b5, #303f9f);
+  border: none;
+  border-radius: 50px;
+  padding: 12px 30px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 5px 15px rgba(63, 81, 181, 0.3);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-vote:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(63, 81, 181, 0.4);
+}
+
+/* Styles pour les résultats */
+.results-card {
+  border: none !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 20px rgba(63, 81, 181, 0.12) !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+
+.results-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(63, 81, 181, 0.2) !important;
+}
+
+.results-card-header {
+  background: linear-gradient(135deg, #3f51b5, #303f9f) !important;
+  color: white !important;
+  border-bottom: none !important;
+  padding: 20px !important;
+}
+
+.results-title {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  position: relative;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.results-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, #3f51b5, #5c6bc0);
+  border-radius: 3px;
+}
+
+/* Styles pour les radio buttons */
+.delegate-radio .form-check {
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  background-color: #f8f9fa;
+}
+
+.delegate-radio .form-check:hover {
+  background-color: #e9f5ff;
+  transform: translateX(5px);
+}
+
+.delegate-radio .form-check-input:checked + .form-check-label {
+  font-weight: 600;
+  color: #3f51b5;
+}
+
+.delegate-radio .form-check-input:checked ~ .form-check {
+  border-color: #3f51b5;
+  background-color: #e9f5ff;
+}
+
+/* Style des boutons radio amélioré */
+.delegate-radio .form-check-input {
+  width: 20px;
+  height: 20px;
+}
+
+.delegate-radio .form-check-input:checked {
+  background-color: #3f51b5 !important;
+  border-color: #3f51b5 !important;
+  box-shadow: 0 0 0 0.2rem rgba(63, 81, 181, 0.25) !important;
+}
+
+/* Animation pour les sélections de classe */
+.class-selector, .results-class-selector {
+  position: relative;
+}
+
+.class-selector h4, .results-class-selector h4 {
+  display: inline-block;
+  position: relative;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+
+.class-selector h4::after, .results-class-selector h4::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #007bff, #00c6ff);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.class-selector h4:hover::after, .results-class-selector h4:hover::after {
+  width: 100%;
+}
+
+/* Style pour la grille de boutons */
+.class-buttons-grid {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  width: 100% !important;
+  margin-bottom: 25px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Style mobile pour les onglets */
+@media (max-width: 768px) {
+  .delegates-container {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+  
+  .delegate-tab-active {
+    border-radius: 8px !important;
+    margin-bottom: 8px;
+  }
+  
+  .nav-tabs {
+    border-bottom: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .nav-tabs .nav-link {
+    margin-bottom: 0;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  #delegate_type > .tab-content {
+    border-radius: 8px;
+    border: none;
+  }
+  
+  .class-buttons-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .btn-vote {
+    width: 100%;
+  }
+}
+
+/* Style personnalisé pour les titres des onglets */
+.delegate-tab-title {
+  color: #3f51b5 !important;
+  font-weight: bold !important;
+  font-size: 1.2rem !important;
+}

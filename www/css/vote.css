@@ -1,0 +1,230 @@
+.vote-container {
+  padding-bottom: 40px;
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+  display: block !important;
+}
+
+.vote-banner {
+  background: linear-gradient(135deg, #2c3e50, #3498db);
+  transition: all 0.3s ease;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+
+.vote-banner:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.border-left-primary {
+  border-left: 4px solid #dee2e6 !important;
+}
+
+.border-left-success {
+  border-left: 4px solid #dee2e6 !important;
+}
+
+.border-left-info {
+  border-left: 4px solid #dee2e6 !important;
+}
+
+.card {
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important;
+}
+
+.position-button {
+  transition: all 0.2s ease;
+  margin-bottom: 8px;
+}
+
+.position-button:hover {
+  transform: translateX(5px);
+}
+
+.candidate-card {
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.candidate-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important;
+}
+
+/* Animation pour les boutons de vote */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.btn-vote {
+  animation: pulse 2s infinite;
+}
+
+/* Style pour le statut de vote */
+.vote-status {
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.vote-pending {
+  background-color: rgba(63, 81, 181, 0.1);
+  color: #3f51b5;
+}
+
+.vote-completed {
+  background-color: rgba(63, 81, 181, 0.2);
+  color: #303f9f;
+}
+
+/* Masquer les barres de défilement */
+.position-checkboxes::-webkit-scrollbar,
+.position-buttons-container::-webkit-scrollbar {
+  width: 0 !important;
+  display: none !important;
+}
+
+.position-buttons-container {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+/* Centrage de la bannière */
+.vote-banner {
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+
+/* Centrage des rangées et colonnes */
+.vote-container .row {
+  width: 100% !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Assurer que les cartes prennent toute la largeur dans leur colonne */
+.vote-container .card {
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+
+/* Centrer l'interface de vote */
+.vote-interface-container {
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Styles pour l'affichage hiérarchique des postes */
+.vote-category-section {
+  background: rgba(248, 249, 250, 0.8);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border-left: 4px solid #0d6efd;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.vote-category-section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.vote-category-title {
+  font-weight: 600;
+  color: #0d6efd;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid rgba(13, 110, 253, 0.2);
+  padding-bottom: 0.8rem;
+}
+
+.vote-positions-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.position-btn {
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+  border: 2px solid transparent !important;
+  font-weight: 500 !important;
+  padding: 0.8rem 1rem !important;
+}
+
+.position-btn:hover {
+  transform: translateX(5px);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.position-btn.vote-completed {
+  background: linear-gradient(135deg, #d4edda, #c3e6cb) !important;
+  border-color: #28a745 !important;
+  color: #155724 !important;
+}
+
+.position-btn.vote-completed:hover {
+  transform: none;
+  cursor: not-allowed;
+}
+
+/* Responsive pour les catégories de vote */
+@media (max-width: 768px) {
+  .vote-category-section {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .vote-category-title {
+    font-size: 1rem;
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+  
+  .position-btn {
+    padding: 0.6rem 0.8rem !important;
+    font-size: 0.9rem !important;
+  }
+}
+
+/* Ajustement mobile */
+@media (max-width: 768px) {
+  .vote-container {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+}

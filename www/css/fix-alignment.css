@@ -1,0 +1,201 @@
+/**
+ * Feuille de style spécifique pour corriger les problèmes d'alignement
+ */
+
+/* Centrage global pour tous les conteneurs */
+.container, 
+.home-container, 
+.delegates-container, 
+.candidates-container, 
+.vote-container, 
+.stats-container, 
+.results-container, 
+.ideas-container {
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  float: none !important;
+  position: relative !important;
+  left: 0 !important;
+  right: 0 !important;
+  transform: none !important;
+  display: block !important;
+  box-sizing: border-box !important;
+}
+
+/* Styles pour le centrage global */
+html, body {
+  overflow-x: hidden !important;
+  width: 100% !important;
+  padding: 0 !important;
+}
+
+body > .container-fluid,
+body > .container-fluid > .page-navbar,
+body > .container-fluid > .page-navbar > .container-fluid,
+body > .container-fluid > .page-navbar > .tab-content,
+body > .container-fluid > .page-navbar > .tab-content > .tab-pane {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+}
+
+/* Forcer les conteneurs à occuper tout l'espace */
+.home-container, 
+.delegates-container, 
+.candidates-container, 
+.vote-container, 
+.stats-container, 
+.results-container, 
+.ideas-container {
+  box-sizing: border-box !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important; /* Centrer uniquement le conteneur lui-même */
+}
+
+/* Assurer que les lignes sont correctement centrées */
+.row {
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  float: none !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+}
+
+/* Corriger les colonnes */
+.col, [class*="col-"] {
+  float: none !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+  text-align: left !important; /* Remettre le texte aligné à gauche dans les colonnes */
+}
+
+/* Assurer que les cartes prennent toute la largeur disponible */
+.card {
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+
+/* Reset de l'alignement du texte pour les contenus de carte */
+.card-body, .card-header, .card-footer {
+  text-align: left !important;
+}
+
+/* Correction spécifique pour les tableaux */
+.dataTables_wrapper, table {
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Correction pour les conteneurs d'onglets */
+.tab-content, .tab-pane {
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  float: none !important;
+}
+
+/* Assurer que les bannières sont centrées */
+.banner, .home-banner, .vote-banner, .stats-banner, .ideas-banner, .results-banner {
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Ajuster spécifiquement la barre de navigation */
+.navbar, .page-navbar {
+  width: 100% !important;
+  left: 0 !important;
+  right: 0 !important;
+}
+
+/* Correction spécifique pour les problèmes d'alignement sur mobile */
+@media (max-width: 768px) {
+  .container, 
+  .home-container, 
+  .delegates-container, 
+  .candidates-container, 
+  .vote-container, 
+  .stats-container, 
+  .results-container, 
+  .ideas-container {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    box-sizing: border-box !important;
+  }
+  
+  .row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+  }
+  
+  .col, [class*="col-"] {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+}
+
+/* Styles spécifiques pour la page Participation (gamification) */
+.gamification-container {
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: space-between !important;
+}
+
+/* Styles pour les colonnes de badges et statistiques */
+.badges-column, 
+.stats-column {
+  width: 48% !important; /* Laisser un peu d'espace entre les colonnes */
+  min-width: 300px !important;
+  margin-bottom: 20px !important;
+  box-sizing: border-box !important;
+}
+
+/* Sur mobile, les colonnes prennent toute la largeur */
+@media (max-width: 768px) {
+  .badges-column, 
+  .stats-column {
+    width: 100% !important;
+  }
+}
+
+/* Assurer que les badges et cartes prennent toute la largeur */
+.badge-card, 
+.stat-card {
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+
+/* S'assurer que les conteneurs internes de badges sont bien centrés */
+.badges-grid, 
+.stats-list {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  width: 100% !important;
+} 
