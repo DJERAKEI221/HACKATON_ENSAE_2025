@@ -115,7 +115,7 @@ stagiaires
 ```         
 Hackaton_ENSAE/
 ├── ui/                             # Interface utilisateur
-│   ├── ui_home.R                   # Page d'accueil responsive
+│   ├── ui_home.R                   # Page d'accueil
 │   ├── ui_candidates.R             # Galerie des candidats
 │   ├── ui_vote.R                   # Interface de vote sécurisée
 │   ├── ui_auth.R                   # Système d'authentification
@@ -216,22 +216,22 @@ shiny::runApp()
 
 ## Guide de maintenance
 
-#### 1. Chargement des Candidats
+#### 1. Chargement des candidats
 
 **Procédure étape par étape :**
 
-1\. **Préparer le fichier** `candidats_bureau.csv` selon le format
+- **Préparer le fichier** `candidats_bureau.csv` selon le format
 standard
 
-2\. **Placer le fichier** dans le dossier `data/`
+- **Placer le fichier** dans le dossier `data/`
 
-3\. **Exécuter** `Mise à jour/charger_candidats_csv.R`
+- **Exécuter** `Mise à jour/charger_candidats_csv.R`
 
-4\. **Vérification automatique** du format
+- **Vérification automatique** du format
 
-5\. **Nettoyage des données**
+- **Nettoyage des données**
 
-6\. **Import dans la base de données**
+- **Import dans la base de données**
 
 **Méthodes d'exécution :**
 
@@ -266,19 +266,19 @@ identifiant;nom;prenom;poste;categorie
 
 - Rapport détaillé des opérations - Gestion des doublons et conflits
 
-#### 2. Chargement des Délégués
+#### 2. Chargement des délégués
 
 **Procédure étape par étape :**
 
-1\.  **Préparer le fichier** `delegues.csv` selon le format standard
+-  **Préparer le fichier** `delegues.csv` selon le format standard
 
-2\. **Placer le fichier** dans le dossier `data/`
+- **Placer le fichier** dans le dossier `data/`
 
-3\. **Exécuter** `Mise à jour/charger_delegues_csv.R`
+- **Exécuter** `Mise à jour/charger_delegues_csv.R`
 
-4\. **Validation des données**
+- **Validation des données**
 
-5\. **Mise à jour de la base**
+- **Mise à jour de la base**
 
 **Méthodes d'exécution :**
 
@@ -314,20 +314,15 @@ source("Mise à jour/verifier_base.R")
 ### Tableau de bord temps réel
 
 -   Participation en direct avec graphiques dynamiques
--   Heatmap de participation par classe/promotion
--   Alertes automatiques de seuils de participation
+-   Taux de participation par classe/promotion
 
 #### Interface Utilisateur et IA
 
 -   **Design** : Interface avec Bootstrap 5 et animations CSS3
 -   **Chatbot IA intégré** : Assistant conversationnel intelligent
     **sunuAES**
--   **Responsive** : Adaptation parfaite mobile/tablette/desktop avec
-    chatbot adaptatif
 -   **Accessibilité** : Support des lecteurs d'écran, navigation clavier
     et assistance IA
--   **UX Guidée** : Feedback utilisateur immédiat avec assistance IA
-    contextuelle
 -   **Authentification duale** : Interface adaptée automatiquement
     (étudiant/admin)
 
