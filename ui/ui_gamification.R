@@ -113,6 +113,7 @@ div(class = "container gamification-container",
         border-bottom: 1px solid #edf2f7;
         transition: all 0.2s ease;
         border-radius: 8px;
+        flex-wrap: wrap;
       }
 
       .leaderboard-row:hover {
@@ -121,8 +122,8 @@ div(class = "container gamification-container",
       }
 
       .leaderboard-position {
-        width: 45px;
-        height: 45px;
+        width: 40px;
+        height: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -134,6 +135,80 @@ div(class = "container gamification-container",
         font-size: 1.2rem;
       }
 
+      .leaderboard-voter-info {
+        flex: 1;
+        min-width: 200px;
+        margin-right: 15px;
+      }
+
+      .leaderboard-name {
+        font-weight: 600;
+        color: #2d3748;
+        font-size: 1.05rem;
+      }
+
+      .leaderboard-class {
+        font-size: 0.85em;
+        color: #6c757d;
+        font-style: italic;
+      }
+      
+      .leaderboard-votes-detail {
+        display: flex;
+        flex-direction: column;
+        margin-right: 15px;
+        min-width: 100px;
+      }
+      
+      .vote-count {
+        font-size: 0.9rem;
+        display: flex;
+        justify-content: space-between;
+        padding: 2px 0;
+      }
+      
+      .aes-votes .vote-value {
+        color: #3f51b5;
+        font-weight: 600;
+      }
+      
+      .delegate-votes .vote-value {
+        color: #4caf50;
+        font-weight: 600;
+      }
+      
+      .leaderboard-score {
+        text-align: right;
+        min-width: 120px;
+      }
+      
+      .total-votes {
+        font-size: 0.9rem;
+        margin-bottom: 4px;
+      }
+      
+      .vote-total-value {
+        font-weight: 700;
+        color: #ff9800;
+      }
+      
+      .score-points {
+        background: rgba(63, 81, 181, 0.1);
+        padding: 4px 10px;
+        border-radius: 20px;
+        display: inline-block;
+      }
+      
+      .score-value {
+        font-weight: bold;
+        color: #3f51b5;
+      }
+      
+      .score-label {
+        font-size: 0.9em;
+      }
+      
+      /* Styles spéciaux pour les trois premiers */
       .leaderboard-position.top-1 {
         background: linear-gradient(135deg, #FFD700, #FFA500);
         color: white;
@@ -151,28 +226,38 @@ div(class = "container gamification-container",
         color: white;
         box-shadow: 0 5px 15px rgba(139, 69, 19, 0.3);
       }
-
-      .leaderboard-name {
-        flex: 1;
-        font-weight: 600;
-        color: #2d3748;
-        font-size: 1.05rem;
-      }
-
-      .leaderboard-score {
-        font-weight: 700;
-        color: #3f51b5;
-        display: flex;
-        align-items: center;
-        font-size: 1.1rem;
-        background: rgba(63, 81, 181, 0.1);
-        padding: 6px 12px;
-        border-radius: 20px;
+      
+      /* Responsive */
+      @media (max-width: 768px) {
+        .leaderboard-row {
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 15px;
+        }
+        
+        .leaderboard-position {
+          margin-bottom: 10px;
+        }
+        
+        .leaderboard-voter-info,
+        .leaderboard-votes-detail,
+        .leaderboard-score {
+          width: 100%;
+          margin-bottom: 10px;
+          text-align: left;
+        }
       }
     "))
   ),
   
   div(class = "spacer", style = "height: 10px;"),
+  
+  # Zone de test pour vérifier que les rendus fonctionnent
+  div(class = "alert alert-info",
+    h4("Statut du Système"),
+    textOutput("test_output"),
+    textOutput("participation-test_output")
+  ),
   
   # Conteneur flex pour mettre les colonnes côte à côte
   div(class = "main-row",
@@ -197,19 +282,6 @@ div(class = "container gamification-container",
         h3(class = "section-title", "Vos Statistiques")
       ),
       
-      # Niveau et progression
-      div(class = "level-container",
-        div(class = "level-circle", textOutput("participation-user_level")),
-        h4(class = "level-text", "Niveau ", textOutput("participation-level_name")),
-        div(class = "progress xp-progress",
-          div(id = "xp_progress_bar", class = "progress-bar", 
-              role = "progressbar", style = "width: 0%;")
-        ),
-        div(class = "xp-text", 
-          textOutput("participation-xp_current"), " / ", textOutput("participation-xp_next"), " XP"
-        )
-      ),
-      
       # Liste des statistiques
       div(class = "stats-list",
         # Conteneur des statistiques - sera rempli dynamiquement
@@ -221,15 +293,164 @@ div(class = "container gamification-container",
   # Tableau de classement
   div(class = "leaderboard-container",
     div(class = "leaderboard-title",
-      div(class = "section-icon", icon("ranking-star")),
-      span("Classement des Participants")
+      div(class = "section-icon", icon("vote-yea")),
+      span("Classement des Votants par Nombre de Votes")
     ),
     
     # Liste des participants - sera remplie dynamiquement
     div(class = "leaderboard-list",
-      # Conteneur du leaderboard dynamique - sera rempli avec les vrais noms des élèves
+      # Conteneur du leaderboard dynamique - sera rempli avec les votants réels
       uiOutput("participation-leaderboard_container")
-    )
+    ),
+    
+    # Ajouter un script JavaScript pour permettre le rafraîchissement manuel du classement
+    tags$script(HTML("
+      Shiny.addCustomMessageHandler('refresh-leaderboard', function(message) {
+        console.log('Rafraîchissement du classement demandé');
+        // Forcer le rafraîchissement du conteneur du classement
+        Shiny.setInputValue('refresh_leaderboard_trigger', Math.random());
+      });
+    ")),
+    
+    tags$style(HTML("
+      /* Styles pour le tableau de classement */
+      .leaderboard-row {
+        display: flex;
+        align-items: center;
+        padding: 15px 10px;
+        border-bottom: 1px solid #edf2f7;
+        transition: all 0.2s ease;
+        border-radius: 8px;
+        flex-wrap: wrap;
+      }
+      
+      .leaderboard-position {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #edf2f7;
+        color: #4a5568;
+        font-weight: 700;
+        margin-right: 15px;
+        font-size: 1.2rem;
+      }
+      
+      .leaderboard-voter-info {
+        flex: 1;
+        min-width: 200px;
+        margin-right: 15px;
+      }
+      
+      .leaderboard-name {
+        font-weight: 600;
+        color: #2d3748;
+        font-size: 1.05rem;
+      }
+      
+      .leaderboard-class {
+        font-size: 0.85em;
+        color: #6c757d;
+        font-style: italic;
+      }
+      
+      .leaderboard-votes-detail {
+        display: flex;
+        flex-direction: column;
+        margin-right: 15px;
+        min-width: 100px;
+      }
+      
+      .vote-count {
+        font-size: 0.9rem;
+        display: flex;
+        justify-content: space-between;
+        padding: 2px 0;
+      }
+      
+      .aes-votes .vote-value {
+        color: #3f51b5;
+        font-weight: 600;
+      }
+      
+      .delegate-votes .vote-value {
+        color: #4caf50;
+        font-weight: 600;
+      }
+      
+      .leaderboard-score {
+        text-align: right;
+        min-width: 120px;
+      }
+      
+      .total-votes {
+        font-size: 0.9rem;
+        margin-bottom: 4px;
+      }
+      
+      .vote-total-value {
+        font-weight: 700;
+        color: #ff9800;
+      }
+      
+      .score-points {
+        background: rgba(63, 81, 181, 0.1);
+        padding: 4px 10px;
+        border-radius: 20px;
+        display: inline-block;
+      }
+      
+      .score-value {
+        font-weight: bold;
+        color: #3f51b5;
+      }
+      
+      .score-label {
+        font-size: 0.9em;
+      }
+      
+      /* Styles spéciaux pour les trois premiers */
+      .leaderboard-position.top-1 {
+        background: linear-gradient(135deg, #FFD700, #FFA500);
+        color: white;
+        box-shadow: 0 5px 15px rgba(255, 165, 0, 0.3);
+      }
+
+      .leaderboard-position.top-2 {
+        background: linear-gradient(135deg, #C0C0C0, #A9A9A9);
+        color: white;
+        box-shadow: 0 5px 15px rgba(169, 169, 169, 0.3);
+      }
+
+      .leaderboard-position.top-3 {
+        background: linear-gradient(135deg, #CD7F32, #8B4513);
+        color: white;
+        box-shadow: 0 5px 15px rgba(139, 69, 19, 0.3);
+      }
+      
+      /* Responsive */
+      @media (max-width: 768px) {
+        .leaderboard-row {
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 15px;
+        }
+        
+        .leaderboard-position {
+          margin-bottom: 10px;
+        }
+        
+        .leaderboard-voter-info,
+        .leaderboard-votes-detail,
+        .leaderboard-score {
+          width: 100%;
+          margin-bottom: 10px;
+          text-align: left;
+        }
+      }
+    "))
   ),
   
   # Ajouter un élément décoratif au bas de la page

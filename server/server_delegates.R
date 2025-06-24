@@ -60,9 +60,13 @@ observeEvent(input$results_ise3, {
   selected_class("ISE3")
   showNotification("Résultats ISE3 affichés", type = "message")
 })
-observeEvent(input$results_masters, { 
-  selected_class("Masters")
-  showNotification("Résultats Masters affichés", type = "message")
+observeEvent(input$results_master_stats_agricoles, {
+  selected_class("Master stats agricoles")
+  showNotification("Résultats Master stats agricoles affichés", type = "message")
+})
+observeEvent(input$results_master_adep, {
+  selected_class("Master ADEP")
+  showNotification("Résultats Master ADEP affichés", type = "message")
 })
 
 
@@ -70,12 +74,20 @@ observeEvent(input$results_masters, {
 # Affichage de la classe de l'étudiant authentifié
 output$selected_class_display <- renderUI({
   if (!is.null(user$authenticated) && user$authenticated && !is.null(user$year)) {
-    div(class = "alert alert-success mt-3",
-        icon("user-graduate", class = "me-2"),
-        strong("Votre classe : "), user$year,
-        br(),
-        em("Vous pouvez voter uniquement pour les délégués de votre classe.")
-    )
+    if (user$year == "Administration") {
+      div(class = "alert alert-primary mt-3",
+          icon("shield-alt", class = "me-2"),
+          strong("Mode Administrateur"), 
+          p("En tant qu'administrateur, vous avez accès aux statistiques des élections mais vous n'avez pas besoin de voter pour des délégués.")
+      )
+    } else {
+      div(class = "alert alert-success mt-3",
+          icon("user-graduate", class = "me-2"),
+          strong("Votre classe : "), user$year,
+          br(),
+          em("Vous pouvez voter uniquement pour les délégués de votre classe.")
+      )
+    }
   } else {
     div(class = "alert alert-warning mt-3",
         icon("exclamation-triangle", class = "me-2"),
@@ -99,6 +111,16 @@ output$main_delegate_choices <- renderUI({
   # Dépendre de la classe sélectionnée ET du trigger de rafraîchissement
   req(selected_class())
   refresh_candidates() # Déclenche le rendu quand cette valeur change
+  
+  # Cas spécial pour l'Administration
+  if (selected_class() == "Administration") {
+    return(div(class = "alert alert-info text-center", 
+               style = "margin: 20px; padding: 20px; background-color: #e3f2fd; border-color: #2196f3;",
+               icon("info-circle", class = "me-2", style = "color: #2196f3;"),
+               h4(style = "color: #0d47a1;", "Interface Administrateur"),
+               p("Les administrateurs ont accès aux fonctionnalités de gestion du système électoral et aux statistiques de votes, mais n'ont pas besoin de voter pour des délégués de classe.")
+    ))
+  }
   
   # Message de débogage
   showNotification(paste("Recherche candidats délégués pour:", selected_class()), type = "message")
@@ -162,6 +184,11 @@ output$deputy_delegate_choices <- renderUI({
   req(selected_class())
   refresh_candidates() # Déclenche le rendu quand cette valeur change
   
+  # Cas spécial pour l'Administration - ne rien afficher
+  if (selected_class() == "Administration") {
+    return(NULL) # Ne rien afficher pour les adjoints si administrateur
+  }
+  
   # Message de débogage
   showNotification(paste("Recherche candidats adjoints pour:", selected_class()), type = "message")
   
@@ -223,6 +250,12 @@ observeEvent(input$submit_delegate_vote, {
   # Vérifier que l'utilisateur est authentifié
   req(user$authenticated, user$id, user$year)
   
+  # Cas spécial pour les administrateurs
+  if (user$year == "Administration") {
+    showNotification("Les administrateurs n'ont pas besoin de voter pour des délégués de classe.", type = "warning")
+    return()
+  }
+  
   # Vérifier que la classe de l'étudiant est définie
   if (is.null(user$year) || user$year == "") {
     showNotification("Erreur: Votre classe n'est pas définie. Veuillez vous reconnecter.", type = "error")
@@ -273,6 +306,9 @@ observeEvent(input$submit_delegate_vote, {
     return()
   }
   
+  # Variable pour suivre si un vote a été enregistré
+  votes_recorded <- FALSE
+  
   # Enregistrer les votes (toujours pour la classe de l'étudiant)
   tryCatch({
     # Vote pour le délégué principal
@@ -282,6 +318,8 @@ observeEvent(input$submit_delegate_vote, {
         params = list(user$id, as.integer(main_choice), user$year)
       )
       showNotification("Vote pour délégué principal enregistré!", type = "message")
+      votes_recorded <- TRUE
+      cat("Vote enregistré pour délégué principal:", user$id, "\n")
     }
     
     # Vote pour le délégué adjoint
@@ -291,19 +329,45 @@ observeEvent(input$submit_delegate_vote, {
         params = list(user$id, as.integer(deputy_choice), user$year)
       )
       showNotification("Vote pour délégué adjoint enregistré!", type = "message")
+      votes_recorded <- TRUE
+      cat("Vote enregistré pour délégué adjoint:", user$id, "\n")
     }
     
     # Notification de succès globale
-    showNotification(paste("Votre vote a été enregistré avec succès pour la classe", user$year, "!"), type = "message")
+    if (votes_recorded) {
+      showNotification(paste("Votre vote a été enregistré avec succès pour la classe", user$year, "!"), type = "message")
+      
+      # Incrémenter le compteur de votes pour mettre à jour le classement
+      if (is.null(values$votes)) {
+        isolate({
+          values$votes <- 1
+        })
+        cat("Initialisation du compteur de votes après le premier vote de délégué\n")
+      } else {
+        isolate({
+          values$votes <- values$votes + 1
+        })
+        cat("Incrémentation du compteur de votes pour délégués:", isolate(values$votes), "\n")
+      }
+      
+      # Force refresh - parfois nécessaire pour R Shiny
+      session$sendCustomMessage(type = "refresh-leaderboard", message = list())
+    }
     
   }, error = function(e) {
     showNotification(paste("Erreur lors de l'enregistrement du vote:", e$message), type = "error")
+    cat("Erreur lors de l'enregistrement du vote de délégué:", e$message, "\n")
   })
 })
 
 # Résultats pour le délégué principal
 output$main_delegate_results <- renderPlot({
   req(selected_class())
+  
+  # Cas spécial pour l'Administration
+  if (selected_class() == "Administration") {
+    return(NULL) # Ne rien afficher pour les administrateurs
+  }
   
   # Récupérer les résultats
   results <- dbGetQuery(values$con, 
@@ -337,6 +401,11 @@ output$main_delegate_results <- renderPlot({
 output$deputy_delegate_results <- renderPlot({
   req(selected_class())
   
+  # Cas spécial pour l'Administration
+  if (selected_class() == "Administration") {
+    return(NULL) # Ne rien afficher pour les administrateurs
+  }
+  
   # Récupérer les résultats
   results <- dbGetQuery(values$con, 
     "SELECT c.name, COUNT(v.id) as votes
@@ -368,6 +437,14 @@ output$deputy_delegate_results <- renderPlot({
 # Tableau des résultats détaillés
 output$delegate_votes_table <- renderTable({
   req(selected_class())
+  
+  # Cas spécial pour l'Administration
+  if (selected_class() == "Administration") {
+    return(data.frame(
+      Type = "Information",
+      Message = "En tant qu'administrateur, vous pouvez consulter les résultats des élections des délégués de classe en sélectionnant une classe spécifique."
+    ))
+  }
   
   # Récupérer les résultats combinés
   results <- dbGetQuery(values$con, 

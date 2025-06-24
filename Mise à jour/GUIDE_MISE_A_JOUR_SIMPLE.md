@@ -131,7 +131,3 @@ Les scripts utilisent maintenant les chemins relatifs corrects :
 
 **Dernière mise à jour** : 28/05/2025  
 **Version** : 2.1 - Structure candidats_bureau.csv mise à jour
-
-www/
-  ├── programs/    # Pour les programmes des candidats AES
-  └── bios/        # Pour les biographies des candidats AES

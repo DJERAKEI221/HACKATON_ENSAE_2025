@@ -645,7 +645,8 @@ div(class = "container delegates-container",
             actionButton("results_ise1", "ISE1", class = "results-class-btn"),
             actionButton("results_ise2", "ISE2", class = "results-class-btn"),
             actionButton("results_ise3", "ISE3", class = "results-class-btn"),
-            actionButton("results_masters", "Masters", class = "results-class-btn")
+            actionButton("results_master_stats_agricoles", "Master stats agricoles", class = "results-class-btn"),
+            actionButton("results_master_adep", "Master ADEP", class = "results-class-btn")
           )
         ),
         # Afficher la classe sélectionnée pour les résultats
@@ -701,10 +702,5 @@ div(class = "container delegates-container",
         )
       )
     )
-  ),
-  
-  # Bouton d'action flottant pour voter rapidement
-  div(class = "floating-action", id = "quick_delegate_vote_button", title = "Voter maintenant",
-    icon("check-to-slot")
   )
 ) 

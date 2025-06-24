@@ -372,8 +372,8 @@ gamificationUI <- function(id) {
       }
     ")),
     
-    # Affichage des points XP
-    div(id = ns("xp_display"), class = "xp-display",
+    # Affichage des points XP (masqué)
+    div(id = ns("xp_display"), class = "xp-display", style = "display: none !important;",
       span(class = "xp-icon", icon("star")),
       span("XP: "), 
       span(id = ns("xp_value"), class = "xp-value", "0")

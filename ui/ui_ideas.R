@@ -177,44 +177,7 @@ div(class = "container ideas-container",
           )
         ),
         bslib::card_body(
-          div(class = "row",
-            div(class = "col-md-4 mb-3",
-              div(class = "popular-idea p-3 h-100 border rounded",
-                div(class = "d-flex align-items-center mb-2",
-                  icon("laptop", class = "text-primary me-2"),
-                  h5(class = "mb-0", "Interface mobile")
-                ),
-                p(class = "text-muted small", "Optimiser l'interface de vote pour les appareils mobiles"),
-                div(class = "text-end",
-                  span(class = "badge bg-primary", "Interface de vote")
-                )
-              )
-            ),
-            div(class = "col-md-4 mb-3",
-              div(class = "popular-idea p-3 h-100 border rounded",
-                div(class = "d-flex align-items-center mb-2",
-                  icon("video", class = "text-success me-2"),
-                  h5(class = "mb-0", "Vidéos de campagne")
-                ),
-                p(class = "text-muted small", "Permettre aux candidats de partager une courte vidéo de présentation"),
-                div(class = "text-end",
-                  span(class = "badge bg-success", "Présentation des candidats")
-                )
-              )
-            ),
-            div(class = "col-md-4 mb-3",
-              div(class = "popular-idea p-3 h-100 border rounded",
-                div(class = "d-flex align-items-center mb-2",
-                  icon("chart-pie", class = "text-info me-2"),
-                  h5(class = "mb-0", "Statistiques en temps réel")
-                ),
-                p(class = "text-muted small", "Afficher des statistiques de participation pendant les élections"),
-                div(class = "text-end",
-                  span(class = "badge bg-info", "Processus électoral")
-                )
-              )
-            )
-          )
+          uiOutput("popular_ideas")
         )
       )
     )

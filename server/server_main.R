@@ -13,7 +13,9 @@ function(input, output, session) {
     authenticated = FALSE,
     votes = list(),
     name = NULL,
-    firstName = NULL
+    firstName = NULL,
+    full_name = NULL,
+    isAdmin = FALSE
   )
   
   # Variables pour les autres modules serveur
@@ -22,11 +24,8 @@ function(input, output, session) {
     con = connection
   )
   
-  # Initialiser le module de notification
-  notification_handlers <- notificationServer("notifications")
-  
   # Charger le module d'authentification
-  source("server/auth_server.R", local = TRUE)
+  source("server/server_auth.R", local = TRUE)
   
   # Initialiser le module d'authentification
   auth_module_output <- auth_server("auth", students_df, user)
@@ -39,6 +38,21 @@ function(input, output, session) {
   source("server/server_ideas.R", local = TRUE)
   source("server/server_gamification.R", local = TRUE)
   source("server/server_delegates.R", local = TRUE)
+  source("server/server_admin.R", local = TRUE)
+  
+  # Charger le module chatbot
+  source("modules/chatbot_module.R", local = TRUE)
+  
+  # Initialiser le module d'administration
+  admin_server("admin", connection, positions)
+  
+  # Initialiser le module chatbot
+  chatbotServer("chatbot")
+  
+  # Rendre le statut d'administrateur disponible en JavaScript
+  observe({
+    session$sendCustomMessage("updateAdminStatus", list(isAdmin = user$isAdmin))
+  })
   
   # Données réactives pour les votes et résultats
   all_votes <- reactive({
@@ -140,42 +154,11 @@ function(input, output, session) {
     }
   })
   
-  # Synchronisation des menus en fonction de l'état d'authentification
-  observe({
-    # Si l'utilisateur n'est pas authentifié, masquer tous les onglets sauf Accueil et Authentification
-    if (!user$authenticated) {
-      showTab(inputId = "main_navbar", target = "Accueil")
-      showTab(inputId = "main_navbar", target = "Authentification")
-      hideTab(inputId = "main_navbar", target = "Candidats")
-      hideTab(inputId = "main_navbar", target = "Vote")
-      hideTab(inputId = "main_navbar", target = "Résultats")
-      hideTab(inputId = "main_navbar", target = "Statistiques")
-      hideTab(inputId = "main_navbar", target = "Boîte à Idées")
-      hideTab(inputId = "main_navbar", target = "Participation")
-      hideTab(inputId = "main_navbar", target = "Délégués de Classe")
-    } else {
-      # Afficher tous les onglets après authentification
-      showTab(inputId = "main_navbar", target = "Accueil")
-      showTab(inputId = "main_navbar", target = "Candidats")
-      showTab(inputId = "main_navbar", target = "Vote")
-      showTab(inputId = "main_navbar", target = "Résultats")
-      showTab(inputId = "main_navbar", target = "Statistiques")
-      showTab(inputId = "main_navbar", target = "Boîte à Idées")
-      showTab(inputId = "main_navbar", target = "Participation")
-      showTab(inputId = "main_navbar", target = "Délégués de Classe")
-      hideTab(inputId = "main_navbar", target = "Authentification")
-      
-      # Si c'est la première fois que l'utilisateur est authentifié, aller à l'onglet Accueil
-      if (is.null(input$main_navbar) || input$main_navbar == "") {
-        updateNavbarPage(session, "main_navbar", selected = "Accueil")
-      }
-      
-      # Afficher une notification de bienvenue
-      notification_handlers$showImportantNotification(
-        "Bienvenue sur l'application électorale",
-        paste0("Connecté en tant que ", user$firstName, " ", user$name, " - Classe: ", user$year)
-      )
-    }
+  # Debug de l'état administrateur
+  observeEvent(user$isAdmin, {
+    cat("Changement de statut admin:", user$isAdmin, "\n")
+    cat("Utilisateur authentifié:", user$authenticated, "\n")
+    cat("ID utilisateur:", user$id, "\n")
   })
   
   # Empêcher la navigation direct si non authentifié
@@ -184,48 +167,5 @@ function(input, output, session) {
       showNotification("Veuillez vous authentifier d'abord", type = "error")
       updateNavbarPage(session, "main_navbar", selected = "Authentification")
     }
-  })
-  
-  # Notifier les utilisateurs des votes
-  observeEvent(input$submit_vote, {
-    # Vérifier si le vote a été enregistré avec succès
-    if (values$vote_success) {
-      notification_handlers$showVoteNotification(
-        "Vote enregistré avec succès",
-        paste0("Votre vote pour ", input$position, " a été comptabilisé.")
-      )
-      
-      # Ajouter des XP pour le vote
-      gamification$addXp(10, "vote")
-      gamification$recordActivity("vote", list(position = input$position))
-    }
-  })
-  
-  # Notifications pour les mises à jour importantes
-  observe({
-    # Récupérer le taux de participation actuel
-    if (user$authenticated) {
-      participation_data <- participation()
-      
-      if (!is.null(participation_data) && nrow(participation_data) > 0) {
-        for (i in 1:nrow(participation_data)) {
-          classe <- participation_data$classe[i]
-          taux <- participation_data$taux[i]
-          
-          # Notifications basées sur les seuils de participation
-          if (taux >= 0.8) {
-            notification_handlers$showParticipationNotification(
-              paste0("Excellente participation pour ", classe),
-              paste0("Taux de participation: ", round(taux * 100, 1), "%")
-            )
-          }
-        }
-      }
-    }
-  })
-  
-  # Fermeture propre de la connexion à la fin de session
-  session$onSessionEnded(function() {
-    try(dbDisconnect(connection), silent = TRUE)
   })
 } 

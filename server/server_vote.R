@@ -1,14 +1,115 @@
 # server/server_vote.R - Gestion des votes
 
+# Installation et chargement des packages nécessaires
+if (!require("lubridate")) {
+  install.packages("lubridate")
+}
+library(lubridate)
+
+# Configuration des dates et heures de vote
+VOTE_START_DATE <- format(Sys.Date(), "%Y-%m-%d")  # Date d'aujourd'hui
+VOTE_END_DATE <- "2025-12-31"    # Date de fin des votes (fin de l'année)
+VOTE_START_TIME <- "00:00:00"    # Heure de début des votes (minuit)
+VOTE_END_TIME <- "23:59:59"      # Heure de fin des votes (fin de journée)
+
+# Fonction pour vérifier si le vote est ouvert
+is_voting_open <- function() {
+  current_datetime <- Sys.time()
+  start_datetime <- as.POSIXct(paste(VOTE_START_DATE, VOTE_START_TIME))
+  end_datetime <- as.POSIXct(paste(VOTE_END_DATE, VOTE_END_TIME))
+  
+  return(current_datetime >= start_datetime && current_datetime <= end_datetime)
+}
+
+# Fonction pour obtenir le temps restant avant l'ouverture ou après la fermeture
+get_voting_time_info <- function() {
+  current_datetime <- Sys.time()
+  start_datetime <- as.POSIXct(paste(VOTE_START_DATE, VOTE_START_TIME))
+  end_datetime <- as.POSIXct(paste(VOTE_END_DATE, VOTE_END_TIME))
+  
+  if (current_datetime < start_datetime) {
+    time_left <- as.numeric(difftime(start_datetime, current_datetime, units = "mins"))
+    hours_left <- floor(time_left / 60)
+    mins_left <- round(time_left %% 60)
+    
+    return(list(
+      status = "pending",
+      message = paste("Les votes ouvriront le", format(start_datetime, "%d/%m/%Y à %H:%M")),
+      time_left = time_left,
+      time_left_text = if(hours_left > 0) {
+        sprintf("%d heure(s) et %d minute(s)", hours_left, mins_left)
+      } else {
+        sprintf("%d minute(s)", mins_left)
+      }
+    ))
+  } else if (current_datetime > end_datetime) {
+    return(list(
+      status = "closed",
+      message = paste("Les votes sont fermés depuis le", format(end_datetime, "%d/%m/%Y à %H:%M")),
+      time_left = 0,
+      time_left_text = "0"
+    ))
+  } else {
+    time_left <- as.numeric(difftime(end_datetime, current_datetime, units = "mins"))
+    hours_left <- floor(time_left / 60)
+    mins_left <- round(time_left %% 60)
+    
+    return(list(
+      status = "open",
+      message = paste("Les votes ferment le", format(end_datetime, "%d/%m/%Y à %H:%M")),
+      time_left = time_left,
+      time_left_text = if(hours_left > 0) {
+        sprintf("%d heure(s) et %d minute(s)", hours_left, mins_left)
+      } else {
+        sprintf("%d minute(s)", mins_left)
+      }
+    ))
+  }
+}
+
 # Variable réactive pour stocker le poste sélectionné
 selected_vote_position <- reactiveVal(NULL)
 
-# Gestion de l'affichage de l'interface de vote selon l'authentification
+# Gestion de l'affichage de l'interface de vote selon l'authentification et l'heure
 output$login_warning <- renderUI({
   if (!is.null(user$authenticated) && user$authenticated) {
-    # Utilisateur authentifié - afficher l'interface de vote
-    shinyjs::show("vote_interface")
-    return(NULL)
+    # Vérifier si l'utilisateur est un administrateur
+    if (!is.null(user$year) && user$year == "Administration") {
+      # Cas spécial pour l'administrateur - masquer l'interface de vote
+      shinyjs::hide("vote_interface")
+      return(div(
+        class = "alert alert-primary text-center", 
+        style = "margin: 50px auto; max-width: 600px;",
+        icon("shield-alt", class = "fa-2x mb-3"),
+        h3("Mode Administrateur"),
+        p("En tant qu'administrateur, vous n'êtes pas autorisé à participer au vote."),
+        p("Vous avez accès aux fonctionnalités d'administration et aux statistiques de votes uniquement.")
+      ))
+    }
+    
+    # Vérifier si le vote est ouvert
+    voting_status <- get_voting_time_info()
+    
+    if (voting_status$status == "open") {
+      # Vote ouvert - afficher l'interface de vote
+      shinyjs::show("vote_interface")
+      return(NULL)
+    } else {
+      # Vote fermé ou en attente - masquer l'interface et afficher un message
+      shinyjs::hide("vote_interface")
+      return(div(
+        class = "alert alert-warning text-center", 
+        style = "margin: 50px auto; max-width: 600px;",
+        icon("clock", class = "fa-2x mb-3"),
+        h3(if(voting_status$status == "pending") "Vote en attente" else "Vote fermé"),
+        p(voting_status$message),
+        if(voting_status$status == "pending") {
+          p(sprintf("Temps restant avant l'ouverture : %s", voting_status$time_left_text))
+        } else if(voting_status$status == "closed") {
+          p("Les votes sont terminés.")
+        }
+      ))
+    }
   } else {
     # Utilisateur non authentifié - masquer l'interface et afficher un message
     shinyjs::hide("vote_interface")
@@ -27,6 +128,71 @@ output$login_warning <- renderUI({
 # Observer pour rediriger vers l'authentification
 observeEvent(input$navbar_goto_auth, {
   updateNavbarPage(session, "main_navbar", selected = "Authentification")
+})
+
+# Observer pour gérer l'authentification et la vérification de l'heure
+observeEvent(input$login_button, {
+  # Vérifier l'authentification
+  if (!is.null(user$authenticated) && user$authenticated) {
+    # Vérifier si le vote est ouvert
+    voting_status <- get_voting_time_info()
+    
+    if (voting_status$status == "open") {
+      # Vote ouvert - autoriser l'accès
+      updateNavbarPage(session, "main_navbar", selected = "Vote")
+    } else {
+      # Vote fermé ou en attente - bloquer l'accès et afficher un message
+      showModal(modalDialog(
+        title = if(voting_status$status == "pending") "Vote en attente" else "Vote fermé",
+        div(
+          class = "text-center",
+          icon("clock", class = "fa-3x mb-3"),
+          p(voting_status$message),
+          if(voting_status$status == "pending") {
+            p(sprintf("Temps restant avant l'ouverture : %s", voting_status$time_left_text))
+          } else if(voting_status$status == "closed") {
+            p("Les votes sont terminés.")
+          }
+        ),
+        footer = modalButton("Fermer"),
+        size = "m"
+      ))
+      
+      # Déconnecter l'utilisateur
+      user$authenticated <- FALSE
+      user$id <- NULL
+      user$votes <- list()
+    }
+  }
+})
+
+# Observer pour empêcher la navigation vers les autres pages si le vote n'est pas ouvert
+observeEvent(input$main_navbar, {
+  if (!is.null(user$authenticated) && user$authenticated) {
+    voting_status <- get_voting_time_info()
+    
+    if (voting_status$status != "open" && input$main_navbar != "Authentification") {
+      # Bloquer la navigation et afficher un message
+      showModal(modalDialog(
+        title = if(voting_status$status == "pending") "Vote en attente" else "Vote fermé",
+        div(
+          class = "text-center",
+          icon("clock", class = "fa-3x mb-3"),
+          p(voting_status$message),
+          if(voting_status$status == "pending") {
+            p(sprintf("Temps restant avant l'ouverture : %s", voting_status$time_left_text))
+          } else if(voting_status$status == "closed") {
+            p("Les votes sont terminés.")
+          }
+        ),
+        footer = modalButton("Fermer"),
+        size = "m"
+      ))
+      
+      # Revenir à la page d'authentification
+      updateNavbarPage(session, "main_navbar", selected = "Authentification")
+    }
+  }
 })
 
 # Générer les boutons pour chaque poste disponible
@@ -243,6 +409,18 @@ observe({
       vote_btn_id <- paste0("vote_", candidate_id)
       
       observeEvent(input[[vote_btn_id]], {
+        # Vérifier si l'utilisateur est un administrateur
+        if (!is.null(user$year) && user$year == "Administration") {
+          showNotification("Les administrateurs ne sont pas autorisés à voter.", type = "error")
+          return()
+        }
+        
+        # Vérifier si le vote est ouvert
+        if (!is_voting_open()) {
+          showNotification("Le vote n'est pas ouvert à cette heure.", type = "error")
+          return()
+        }
+        
         # Vérifier si l'utilisateur a déjà voté
         existing_votes <- dbGetQuery(values$con,
                                      "SELECT * FROM votes WHERE voter_id = ? AND position_id = ?",
@@ -277,10 +455,24 @@ observe({
 observeEvent(input$confirm_vote, {
   req(user$temp_vote, user$id, values$con)
   
+  # Vérifier si l'utilisateur est un administrateur
+  if (!is.null(user$year) && user$year == "Administration") {
+    showNotification("Les administrateurs ne sont pas autorisés à voter.", type = "error")
+    removeModal()
+    return()
+  }
+  
+  # Vérifier si le vote est toujours ouvert
+  if (!is_voting_open()) {
+    showNotification("Le vote n'est plus ouvert à cette heure.", type = "error")
+    removeModal()
+    return()
+  }
+  
   # Enregistrer le vote
   position_id <- user$temp_vote$position_id
   candidate_id <- user$temp_vote$candidate_id
-  voter_id <- user$id # Utiliser l'identifiant CSV
+  voter_id <- user$id
   
   # Vérifier une dernière fois si l'utilisateur a déjà voté pour ce poste
   existing_votes <- dbGetQuery(values$con,
@@ -308,11 +500,24 @@ observeEvent(input$confirm_vote, {
     # Marquer le succès du vote
     values$vote_success <- TRUE
     
+    # Incrémenter le compteur de votes pour déclencher les mises à jour des vues
+    if (is.null(values$votes)) {
+      isolate({
+        values$votes <- 1
+      })
+      cat("Initialisation du compteur de votes après le premier vote\n")
+    } else {
+      isolate({
+        values$votes <- values$votes + 1
+      })
+      cat("Incrémentation du compteur de votes:", isolate(values$votes), "\n")
+    }
+    
     # Fermer la boîte de dialogue
     removeModal()
     
     # Afficher confirmation
-    showNotification("Vote enregistré avec succès!", type = "success")
+    showNotification("Vote enregistré avec succès!", type = "message")
     
     # Nettoyer les données temporaires
     user$temp_vote <- NULL

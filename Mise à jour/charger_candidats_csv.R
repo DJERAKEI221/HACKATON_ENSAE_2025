@@ -116,12 +116,6 @@ poste_mapping <- c(
 # Corriger les postes
 candidats$poste <- poste_mapping[candidats$poste]
 
-# Afficher les postes uniques pour debug
-cat("\nPostes uniques dans le CSV:\n")
-print(unique(candidats$poste))
-cat("\nPostes disponibles dans la base:\n")
-print(names(postes_mapping))
-
 # Supprimer tous les votes et candidats existants
 dbExecute(con, "DELETE FROM votes")
 dbExecute(con, "DELETE FROM candidates")
@@ -129,6 +123,12 @@ dbExecute(con, "DELETE FROM candidates")
 # Récupérer la liste des postes avec leurs IDs
 postes_db <- dbGetQuery(con, "SELECT id, name FROM positions")
 postes_mapping <- setNames(postes_db$id, postes_db$name)
+
+# Afficher les postes uniques pour debug
+cat("\nPostes uniques dans le CSV:\n")
+print(unique(candidats$poste))
+cat("\nPostes disponibles dans la base:\n")
+print(names(postes_mapping))
 
 # Traiter chaque candidat du CSV
 candidats_ajoutes <- 0
@@ -138,16 +138,16 @@ for (i in 1:nrow(candidats)) {
   poste_id <- postes_mapping[candidat$poste]
   
   if (!is.na(poste_id)) {
-    tryCatch({
-      dbExecute(con, "
-        INSERT INTO candidates (name, position_id, program, bio)
+  tryCatch({
+    dbExecute(con, "
+      INSERT INTO candidates (name, position_id, program, bio)
         VALUES (?, ?, ?, '')
       ", params = list(nom_complet, poste_id, "Programme à venir"))
-      candidats_ajoutes <- candidats_ajoutes + 1
+    candidats_ajoutes <- candidats_ajoutes + 1
       cat("OK:", nom_complet, "ajouté comme candidat pour", candidat$poste, "\n")
-    }, error = function(e) {
+  }, error = function(e) {
       cat("ATTENTION: Erreur lors de l'ajout de", nom_complet, ":", e$message, "\n")
-    })
+  })
   } else {
     cat("ATTENTION: Poste invalide pour", nom_complet, ":", candidat$poste, "\n")
     cat("   Postes disponibles:", paste(names(postes_mapping), collapse = ", "), "\n")
