@@ -309,11 +309,49 @@ output$candidates_cards <- renderUI({
               label = tagList(icon("user"), " Profil"),
               class = "btn btn-outline-primary btn-sm"
             ),
+                      # Vérifier les conditions pour activer/désactiver le bouton de vote
+          {
+            can_vote <- TRUE
+            vote_btn_class <- "btn btn-success btn-sm"
+            vote_btn_label <- tagList(icon("vote-yea"), " Voter")
+            
+            # Vérifier si l'utilisateur est authentifié
+            if (is.null(user$authenticated) || !user$authenticated) {
+              can_vote <- FALSE
+              vote_btn_label <- tagList(icon("lock"), " Connectez-vous")
+              vote_btn_class <- "btn btn-secondary btn-sm"
+            }
+            # Vérifier si l'utilisateur est un admin
+            else if (!is.null(user$year) && user$year == "Administration") {
+              can_vote <- FALSE
+              vote_btn_label <- tagList(icon("ban"), " Admin")
+              vote_btn_class <- "btn btn-warning btn-sm"
+            }
+            # Vérifier si le vote est ouvert
+            else if (!is_voting_open()) {
+              can_vote <- FALSE
+              vote_btn_label <- tagList(icon("clock"), " Vote fermé")
+              vote_btn_class <- "btn btn-secondary btn-sm"
+            }
+            # Vérifier si déjà voté pour ce poste
+            else if (!is.null(user$id)) {
+              existing_votes <- dbGetQuery(values$con,
+                                           "SELECT * FROM votes WHERE voter_id = ? AND position_id = ?",
+                                           params = list(user$id, candidate$position_id))
+              if(nrow(existing_votes) > 0) {
+                can_vote <- FALSE
+                vote_btn_label <- tagList(icon("check"), " Déjà voté")
+                vote_btn_class <- "btn btn-outline-success btn-sm"
+              }
+            }
+            
             actionButton(
               inputId = paste0("vote_for_list_", candidate$id),
-              label = tagList(icon("vote-yea"), " Voter"),
-              class = "btn btn-success btn-sm"
+              label = vote_btn_label,
+              class = vote_btn_class,
+              disabled = if(!can_vote) "disabled" else NULL
             )
+          }
           )
         )
       )
@@ -360,11 +398,49 @@ output$candidates_cards <- renderUI({
             label = tagList(icon("eye"), " Voir le profil"),
             class = "btn btn-outline-primary"
           ),
+          # Vérifier les conditions pour activer/désactiver le bouton de vote
+          {
+            can_vote <- TRUE
+            vote_btn_class <- "btn btn-success"
+            vote_btn_label <- tagList(icon("vote-yea"), " Voter")
+            
+            # Vérifier si l'utilisateur est authentifié
+            if (is.null(user$authenticated) || !user$authenticated) {
+              can_vote <- FALSE
+              vote_btn_label <- tagList(icon("lock"), " Connectez-vous")
+              vote_btn_class <- "btn btn-secondary"
+            }
+            # Vérifier si l'utilisateur est un admin
+            else if (!is.null(user$year) && user$year == "Administration") {
+              can_vote <- FALSE
+              vote_btn_label <- tagList(icon("ban"), " Admin")
+              vote_btn_class <- "btn btn-warning"
+            }
+            # Vérifier si le vote est ouvert
+            else if (!is_voting_open()) {
+              can_vote <- FALSE
+              vote_btn_label <- tagList(icon("clock"), " Vote fermé")
+              vote_btn_class <- "btn btn-secondary"
+            }
+            # Vérifier si déjà voté pour ce poste
+            else if (!is.null(user$id)) {
+              existing_votes <- dbGetQuery(values$con,
+                                           "SELECT * FROM votes WHERE voter_id = ? AND position_id = ?",
+                                           params = list(user$id, candidate$position_id))
+              if(nrow(existing_votes) > 0) {
+                can_vote <- FALSE
+                vote_btn_label <- tagList(icon("check"), " Déjà voté")
+                vote_btn_class <- "btn btn-outline-success"
+              }
+            }
+            
           actionButton(
             inputId = paste0("vote_for_card_", candidate$id),
-            label = tagList(icon("vote-yea"), " Voter"),
-            class = "btn btn-success"
+              label = vote_btn_label,
+              class = vote_btn_class,
+              disabled = if(!can_vote) "disabled" else NULL
           )
+          }
         )
       )
     })
@@ -410,11 +486,49 @@ output$candidates_cards <- renderUI({
             label = tagList(icon("user"), " Profil"),
             class = "btn btn-outline-primary btn-sm"
           ),
+          # Vérifier les conditions pour activer/désactiver le bouton de vote
+          {
+            can_vote <- TRUE
+            vote_btn_class <- "btn btn-success btn-sm"
+            vote_btn_label <- tagList(icon("vote-yea"), " Voter")
+            
+            # Vérifier si l'utilisateur est authentifié
+            if (is.null(user$authenticated) || !user$authenticated) {
+              can_vote <- FALSE
+              vote_btn_label <- tagList(icon("lock"), " Connectez-vous")
+              vote_btn_class <- "btn btn-secondary btn-sm"
+            }
+            # Vérifier si l'utilisateur est un admin
+            else if (!is.null(user$year) && user$year == "Administration") {
+              can_vote <- FALSE
+              vote_btn_label <- tagList(icon("ban"), " Admin")
+              vote_btn_class <- "btn btn-warning btn-sm"
+            }
+            # Vérifier si le vote est ouvert
+            else if (!is_voting_open()) {
+              can_vote <- FALSE
+              vote_btn_label <- tagList(icon("clock"), " Vote fermé")
+              vote_btn_class <- "btn btn-secondary btn-sm"
+            }
+            # Vérifier si déjà voté pour ce poste
+            else if (!is.null(user$id)) {
+              existing_votes <- dbGetQuery(values$con,
+                                           "SELECT * FROM votes WHERE voter_id = ? AND position_id = ?",
+                                           params = list(user$id, candidate$position_id))
+              if(nrow(existing_votes) > 0) {
+                can_vote <- FALSE
+                vote_btn_label <- tagList(icon("check"), " Déjà voté")
+                vote_btn_class <- "btn btn-outline-success btn-sm"
+              }
+            }
+            
           actionButton(
             inputId = paste0("vote_for_", candidate$id),
-            label = tagList(icon("vote-yea"), " Voter"),
-            class = "btn btn-success btn-sm"
+              label = vote_btn_label,
+              class = vote_btn_class,
+              disabled = if(!can_vote) "disabled" else NULL
           )
+          }
         )
       )
     })
@@ -438,51 +552,349 @@ observe({
     for(i in 1:nrow(candidates)) {
       candidate_id <- candidates$id[i]
       
-      # Profils
+      # Profils et votes
       local({
         id <- candidate_id
+        
+        # Profils - Mode grille
         observeEvent(input[[paste0("view_profile_", id)]], {
-          # Logique pour afficher le profil
+          candidate_info <- candidates[candidates$id == id, ]
           showModal(modalDialog(
-            title = paste("Profil de", candidates[candidates$id == id, "name"]),
+            title = paste("Profil de", candidate_info$name),
             size = "l",
             easyClose = TRUE,
             footer = modalButton("Fermer"),
-            # Contenu du profil
             div(class = "candidate-profile-modal",
-              # Contenu détaillé du candidat
-              h4("Informations détaillées à venir...")
+              h4("Informations détaillées"),
+              p(strong("Poste: "), candidate_info$position_name),
+              p(strong("Biographie: "), 
+                if(is.na(candidate_info$bio) || candidate_info$bio == "") 
+                  "Aucune biographie disponible." 
+                else 
+                  candidate_info$bio),
+              p(strong("Programme: "), 
+                if(is.na(candidate_info$program) || candidate_info$program == "") 
+                  "Aucun programme disponible." 
+                else 
+                  candidate_info$program)
             )
           ))
         })
         
+        # Profils - Mode liste
         observeEvent(input[[paste0("view_profile_list_", id)]], {
-          # Même logique pour le mode liste
+          candidate_info <- candidates[candidates$id == id, ]
           showModal(modalDialog(
-            title = paste("Profil de", candidates[candidates$id == id, "name"]),
+            title = paste("Profil de", candidate_info$name),
             size = "l",
             easyClose = TRUE,
             footer = modalButton("Fermer"),
             div(class = "candidate-profile-modal",
-              h4("Informations détaillées à venir...")
+              h4("Informations détaillées"),
+              p(strong("Poste: "), candidate_info$position_name),
+              p(strong("Biographie: "), 
+                if(is.na(candidate_info$bio) || candidate_info$bio == "") 
+                  "Aucune biographie disponible." 
+                else 
+                  candidate_info$bio),
+              p(strong("Programme: "), 
+                if(is.na(candidate_info$program) || candidate_info$program == "") 
+                  "Aucun programme disponible." 
+                else 
+                  candidate_info$program)
             )
           ))
         })
         
+        # Profils - Mode carte
         observeEvent(input[[paste0("view_profile_card_", id)]], {
-          # Même logique pour le mode carte
+          candidate_info <- candidates[candidates$id == id, ]
           showModal(modalDialog(
-            title = paste("Profil de", candidates[candidates$id == id, "name"]),
+            title = paste("Profil de", candidate_info$name),
             size = "l",
             easyClose = TRUE,
             footer = modalButton("Fermer"),
             div(class = "candidate-profile-modal",
-              h4("Informations détaillées à venir...")
+              h4("Informations détaillées"),
+              p(strong("Poste: "), candidate_info$position_name),
+              p(strong("Biographie: "), 
+                if(is.na(candidate_info$bio) || candidate_info$bio == "") 
+                  "Aucune biographie disponible." 
+                else 
+                  candidate_info$bio),
+              p(strong("Programme: "), 
+                if(is.na(candidate_info$program) || candidate_info$program == "") 
+                  "Aucun programme disponible." 
+                else 
+                  candidate_info$program)
             )
           ))
     })
+        
+        # Votes - Mode grille
+        observeEvent(input[[paste0("vote_for_", id)]], {
+          handle_candidate_vote(id)
+        })
+        
+        # Votes - Mode liste
+        observeEvent(input[[paste0("vote_for_list_", id)]], {
+          handle_candidate_vote(id)
+        })
+        
+        # Votes - Mode carte
+        observeEvent(input[[paste0("vote_for_card_", id)]], {
+          handle_candidate_vote(id)
+        })
   })
     }
+  }
+})
+
+# Fonction pour gérer le vote d'un candidat
+handle_candidate_vote <- function(candidate_id) {
+  # Log de débogage
+  cat("handle_candidate_vote appelée avec candidate_id:", candidate_id, "\n")
+  cat("user$authenticated:", user$authenticated, "\n")
+  cat("user$id:", user$id, "\n")
+  
+  # Vérifier si l'utilisateur est authentifié
+  if (is.null(user$authenticated) || !user$authenticated) {
+    showNotification("Vous devez être connecté pour voter.", type = "error")
+    return()
+  }
+  
+  # Vérifier si l'ID utilisateur est présent
+  if (is.null(user$id) || user$id == "") {
+    showNotification("Erreur: Identifiant utilisateur manquant.", type = "error")
+    return()
+  }
+  
+  # Vérifier si l'utilisateur est un administrateur
+  if (!is.null(user$year) && user$year == "Administration") {
+    showNotification("Les administrateurs ne sont pas autorisés à voter.", type = "error")
+    return()
+  }
+  
+  # Vérifier si le vote est ouvert
+  if (!is_voting_open()) {
+    showNotification("Le vote n'est pas ouvert à cette heure.", type = "error")
+    return()
+  }
+  
+  # Valider l'ID du candidat
+  if (is.null(candidate_id) || is.na(candidate_id)) {
+    showNotification("Erreur: Identifiant candidat invalide.", type = "error")
+    return()
+  }
+  
+  # Récupérer les informations du candidat avec gestion d'erreur
+  candidate_info <- tryCatch({
+    dbGetQuery(values$con, 
+      "SELECT c.*, p.name as position_name FROM candidates c 
+       JOIN positions p ON c.position_id = p.id 
+       WHERE c.id = ?", 
+      params = list(as.integer(candidate_id)))
+  }, error = function(e) {
+    cat("Erreur lors de la récupération du candidat:", e$message, "\n")
+    return(data.frame())
+  })
+  
+  if(nrow(candidate_info) == 0) {
+    showNotification("Candidat introuvable.", type = "error")
+    return()
+  }
+  
+  position_id <- candidate_info$position_id[1]
+  
+  # Log des informations récupérées
+  cat("Candidat trouvé:", candidate_info$name[1], "\n")
+  cat("Position ID:", position_id, "\n")
+  
+  # Vérifier si l'utilisateur a déjà voté pour ce poste
+  existing_votes <- tryCatch({
+    dbGetQuery(values$con,
+               "SELECT COUNT(*) as count FROM votes WHERE voter_id = ? AND position_id = ?",
+               params = list(as.character(user$id), as.integer(position_id)))
+  }, error = function(e) {
+    cat("Erreur lors de la vérification des votes existants:", e$message, "\n")
+    return(data.frame(count = 0))
+  })
+  
+  if(existing_votes$count > 0) {
+    showNotification("Vous avez déjà voté pour ce poste.", type = "error")
+    return()
+  }
+  
+  # Confirmation avant vote
+  showModal(modalDialog(
+    title = "Confirmation de vote",
+    div(class = "text-center",
+      h4(paste("Voter pour", candidate_info$name[1])),
+      p(paste("Poste:", candidate_info$position_name[1])),
+      br(),
+      p("Êtes-vous sûr de vouloir voter pour ce candidat?"),
+      p(strong("Ce vote est définitif et ne pourra pas être modifié."))
+    ),
+    footer = tagList(
+      modalButton("Annuler"),
+      actionButton("confirm_candidate_vote", "Confirmer mon vote", class = "btn-success")
+    )
+  ))
+  
+  # Stocker temporairement les informations de vote
+  user$temp_vote <- list(
+    candidate_id = as.integer(candidate_id),
+    position_id = as.integer(position_id),
+    candidate_name = candidate_info$name[1],
+    position_name = candidate_info$position_name[1]
+  )
+  
+  cat("Données temporaires stockées:", toString(user$temp_vote), "\n")
+}
+
+# Observer pour la confirmation du vote depuis la page candidats
+observeEvent(input$confirm_candidate_vote, {
+  if (!is.null(user$temp_vote)) {
+    # Vérifier que toutes les données sont présentes
+    if (is.null(user$id) || is.null(user$temp_vote$candidate_id) || is.null(user$temp_vote$position_id)) {
+      showNotification("Erreur: Données de vote incomplètes.", type = "error")
+      return()
+    }
+    
+    # S'assurer que les types sont corrects
+    voter_id <- as.character(user$id)
+    candidate_id <- as.integer(user$temp_vote$candidate_id)
+    position_id <- as.integer(user$temp_vote$position_id)
+    
+    # Vérifier que la conversion a réussi
+    if (is.na(candidate_id) || is.na(position_id)) {
+      showNotification("Erreur: Identifiants invalides.", type = "error")
+      return()
+    }
+    
+    # Enregistrer le vote
+    vote_hash <- digest::digest(paste(voter_id, candidate_id, position_id, Sys.time()), algo = "sha256")
+    
+    tryCatch({
+      # Vérifier que la connexion est active
+      if (is.null(values$con) || !dbIsValid(values$con)) {
+        showNotification("Erreur: Problème de connexion à la base de données.", type = "error")
+        return()
+      }
+      
+      # Activer les contraintes de clés étrangères (important pour SQLite)
+      dbExecute(values$con, "PRAGMA foreign_keys = ON")
+      
+      # Vérifier que le candidat existe toujours
+      candidate_check <- dbGetQuery(values$con,
+                                    "SELECT COUNT(*) as count FROM candidates WHERE id = ?",
+                                    params = list(candidate_id))
+      
+      if (candidate_check$count == 0) {
+        showNotification("Erreur: Le candidat sélectionné n'existe plus.", type = "error")
+        user$temp_vote <- NULL
+        removeModal()
+        return()
+      }
+      
+      # Vérifier que le poste existe
+      position_check <- dbGetQuery(values$con,
+                                   "SELECT COUNT(*) as count FROM positions WHERE id = ?",
+                                   params = list(position_id))
+      
+      if (position_check$count == 0) {
+        showNotification("Erreur: Le poste sélectionné n'existe plus.", type = "error")
+        user$temp_vote <- NULL
+        removeModal()
+        return()
+      }
+      
+      # Vérifier que l'électeur existe
+      voter_check <- dbGetQuery(values$con,
+                                "SELECT COUNT(*) as count FROM voters WHERE id = ?",
+                                params = list(voter_id))
+      
+      if (voter_check$count == 0) {
+        showNotification("Erreur: Votre profil d'électeur n'a pas été trouvé.", type = "error")
+        user$temp_vote <- NULL
+        removeModal()
+        return()
+      }
+      
+      # Vérifier si l'utilisateur n'a pas déjà voté pour ce poste (double vérification)
+      existing_votes <- dbGetQuery(values$con,
+                                   "SELECT COUNT(*) as count FROM votes WHERE voter_id = ? AND position_id = ?",
+                                   params = list(voter_id, position_id))
+      
+      if (existing_votes$count > 0) {
+        showNotification("Erreur: Vous avez déjà voté pour ce poste.", type = "error")
+        user$temp_vote <- NULL
+        removeModal()
+        return()
+      }
+      
+      # Vérifier l'unicité du hash (éviter les doublons)
+      hash_check <- dbGetQuery(values$con,
+                               "SELECT COUNT(*) as count FROM votes WHERE hash = ?",
+                               params = list(vote_hash))
+      
+      if (hash_check$count > 0) {
+        # Régénérer un nouveau hash
+        vote_hash <- digest::digest(paste(voter_id, candidate_id, position_id, Sys.time(), runif(1)), algo = "sha256")
+      }
+      
+      # Commencer une transaction pour garantir la cohérence
+      dbExecute(values$con, "BEGIN TRANSACTION")
+      
+      # Insérer le vote
+      dbExecute(values$con, 
+        "INSERT INTO votes (voter_id, candidate_id, position_id, hash) VALUES (?, ?, ?, ?)",
+        params = list(voter_id, candidate_id, position_id, vote_hash)
+      )
+      
+      # Mettre à jour seulement le timestamp du vote
+      # Note: has_voted sera mis à jour seulement quand l'électeur aura voté pour tous les postes requis
+      dbExecute(values$con,
+        "UPDATE voters SET vote_timestamp = CURRENT_TIMESTAMP WHERE id = ?",
+        params = list(voter_id))
+      
+      # Valider la transaction
+      dbExecute(values$con, "COMMIT")
+      
+      showNotification("Vote enregistré avec succès!", type = "message")
+      
+      # Nettoyer les données temporaires
+      user$temp_vote <- NULL
+      
+      # Fermer la modal
+      removeModal()
+      
+    }, error = function(e) {
+      # Annuler la transaction en cas d'erreur
+      tryCatch({
+        dbExecute(values$con, "ROLLBACK")
+      }, error = function(rollback_error) {
+        cat("Erreur lors du rollback:", rollback_error$message, "\n")
+      })
+      
+      # Afficher l'erreur détaillée dans la console
+      cat("Erreur lors de l'enregistrement du vote:\n")
+      cat("Message d'erreur:", e$message, "\n")
+      cat("voter_id:", voter_id, "\n")
+      cat("candidate_id:", candidate_id, "\n")
+      cat("position_id:", position_id, "\n")
+      cat("vote_hash:", vote_hash, "\n")
+      
+      # Nettoyer les données temporaires
+      user$temp_vote <- NULL
+      
+      # Fermer la modal
+      removeModal()
+      
+      # Afficher une notification avec plus de détails
+      error_msg <- paste("Erreur lors de l'enregistrement du vote:", e$message)
+      showNotification(error_msg, type = "error", duration = 10)
+    })
   }
 })
 

@@ -3,11 +3,10 @@
 # Charger les dépendances globales
 source("global.R")
 
-
-
 # Charger l'interface utilisateur et le serveur
 ui <- source("ui/ui_main.R")$value
 server <- source("server/server_main.R")$value
+
 
 # Configuration des options Shiny
 options(

@@ -62,6 +62,11 @@ cat("Tous les packages ont été chargés avec succès.\n\n")
 source("modules/notification_module.R")
 source("modules/realtime_updates.R")
 source("modules/gamification_module.R")
+source("modules/announcement_system.R")
+source("modules/push_notification_service.R")
+
+# Charger les modules d'interface UI
+source("ui/ui_admin.R")
 
 # Création du dossier data s'il n'existe pas
 if (!dir.exists("data")) {
@@ -323,74 +328,36 @@ if (existing_positions < 20) {
   cat("INFO: Postes existants conservés\n")
 }
 
-# Fonction pour générer une biographie aléatoire
-generate_bio <- function(nom, classe, sexe) {
-  activites <- c(
-    "très impliqué dans la vie associative de l'école",
-    "reconnu pour son leadership et son esprit d'équipe",
-    "actif dans les projets étudiants et les initiatives communautaires",
-    "connu pour sa rigueur académique et son engagement social",
-    "passionné par l'innovation et les nouvelles technologies",
-    "engagé dans le développement durable et les causes sociales"
-  )
-  
-  experiences <- c(
-    "Il/Elle a organisé plusieurs événements majeurs",
-    "Il/Elle a été membre du bureau de plusieurs clubs",
-    "Il/Elle a participé à de nombreux projets collaboratifs",
-    "Il/Elle a représenté l'école dans diverses compétitions",
-    "Il/Elle a mené des initiatives d'amélioration de la vie étudiante",
-    "Il/Elle a développé des partenariats avec des entreprises locales"
-  )
-  
-  pronoun <- if(sexe == "Féminin") "Elle" else "Il"
-  activite <- sample(activites, 1)
-  experience <- sample(experiences, 1)
-  experience <- gsub("Il/Elle", pronoun, experience)
-  
-  return(paste0("Étudiant(e) en ", classe, " à l'ENSAE, ", nom, " est ", activite, ". ", experience, " et est reconnu(e) pour son dévouement et sa capacité à fédérer les équipes."))
-}
 
-# Fonction pour générer un programme aléatoire
-generate_program <- function(position_name) {
-  programs_by_position <- list(
-    "Président(e)" = c(
-      "Moderniser les infrastructures et améliorer le cadre de vie étudiant",
-      "Renforcer les liens avec les entreprises et faciliter l'insertion professionnelle",
-      "Développer une politique de bourses et d'aide aux étudiants en difficulté",
-      "Créer un environnement d'études plus inclusif et collaboratif"
-    ),
-    "Secrétaire général(e)" = c(
-      "Digitaliser la gestion administrative pour plus d'efficacité",
-      "Améliorer la communication interne et la transparence",
-      "Mettre en place un système de suivi des projets étudiants",
-      "Optimiser l'organisation des événements et activités"
-    ),
-    "Tésorier(e)" = c(
-      "Assurer une gestion financière transparente et rigoureuse",
-      "Développer de nouvelles sources de financement pour l'association",
-      "Mettre en place un budget participatif pour les projets étudiants",
-      "Optimiser les dépenses et maximiser l'impact des investissements"
-    )
-  )
+ 
   
-  # Programme par défaut pour les autres postes
-  default_programs <- c(
-    "Dynamiser les activités et créer plus d'opportunités pour les étudiants",
-    "Améliorer la qualité des services offerts aux étudiants",
-    "Développer des partenariats stratégiques et des projets innovants",
-    "Renforcer la cohésion et l'esprit d'équipe au sein de l'association"
-  )
-  
-  if(position_name %in% names(programs_by_position)) {
-    return(sample(programs_by_position[[position_name]], 1))
-  } else {
-    return(sample(default_programs, 1))
+
+
+
+# Fonction pour obtenir automatiquement le nom complet d'un utilisateur
+get_full_name <- function(user_id) {
+  # Recherche dans les données étudiants
+  if (!is.null(user_id) && user_id != "") {
+    # Vérifier si c'est un admin
+    if (user_id %in% c("admin1", "admin2", "admin3")) {
+      return("Administrateur Système")
+    }
+    
+    # Chercher dans la base des étudiants
+    student_info <- students_df[students_df$Identifiant == user_id, ]
+    if (nrow(student_info) > 0) {
+      return(paste(student_info$Prenom[1], student_info$Nom[1]))
+    }
   }
+  
+  # Valeur par défaut si aucune correspondance n'est trouvée
+  return("Utilisateur Inconnu")
 }
 
-# Créer le nom complet pour chaque étudiant
-students_df$nom_complet <- paste(students_df$Prenom, students_df$Nom)
+# Créer le nom complet pour chaque étudiant en utilisant la nouvelle fonction
+for (i in 1:nrow(students_df)) {
+  students_df$nom_complet[i] <- get_full_name(students_df$Identifiant[i])
+}
 
 # Vérifier s'il faut générer des candidats aléatoires
 existing_candidates_count <- dbGetQuery(con, "SELECT COUNT(*) as count FROM candidates")$count
@@ -431,7 +398,13 @@ if (existing_candidates_count < 5 && file.exists("data/candidats_bureau.csv")) {
     candidats_ajoutes <- 0
     for (i in 1:nrow(candidats_csv)) {
       candidat <- candidats_csv[i, ]
-      nom_complet <- paste(candidat$prenom, candidat$nom)
+      # Utiliser la fonction get_full_name si l'identifiant est disponible
+      if ("identifiant" %in% names(candidat) && !is.na(candidat$identifiant) && candidat$identifiant != "") {
+        nom_complet <- get_full_name(candidat$identifiant)
+      } else {
+        # Fallback à la méthode manuelle si pas d'identifiant
+        nom_complet <- paste(candidat$prenom, candidat$nom)
+      }
       poste_id <- postes_mapping[candidat$poste]
       
       if (!is.na(poste_id)) {
@@ -479,6 +452,29 @@ dbExecute(con, "
   )
 ")
 
+# Création de la table des administrateurs
+dbExecute(con, "
+  CREATE TABLE IF NOT EXISTS admins (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    role TEXT DEFAULT 'admin'
+  )
+")
+
+# Insertion des administrateurs par défaut s'ils n'existent pas déjà
+admin_count <- dbGetQuery(con, "SELECT COUNT(*) as count FROM admins")$count
+if (admin_count == 0) {
+  cat("Création des comptes administrateurs par défaut...\n")
+  
+  # Insérer les trois administrateurs demandés
+  dbExecute(con, "INSERT OR IGNORE INTO admins (username, password, role) VALUES ('admin1', 'admin1', 'admin')")
+  dbExecute(con, "INSERT OR IGNORE INTO admins (username, password, role) VALUES ('admin2', 'admin2', 'admin')")
+  dbExecute(con, "INSERT OR IGNORE INTO admins (username, password, role) VALUES ('admin3', 'admin3', 'admin')")
+  
+  cat("OK: Comptes administrateurs créés\n")
+}
+
 # CHARGEMENT AUTOMATIQUE DES DÉLÉGUÉS DEPUIS LE CSV
 delegate_count <- dbGetQuery(con, "SELECT COUNT(*) as count FROM delegate_candidates")
 if (delegate_count$count < 5 && file.exists("data/delegues.csv")) {
@@ -511,7 +507,8 @@ if (delegate_count$count < 5 && file.exists("data/delegues.csv")) {
     delegues_ajoutes <- 0
     for (i in 1:nrow(delegues_csv)) {
       delegue <- delegues_csv[i, ]
-      nom_complet <- paste(delegue$prenom, delegue$nom)
+      # Utiliser la fonction get_full_name pour récupérer le nom complet
+      nom_complet <- get_full_name(delegue$identifiant)
       
       if (delegue$type %in% c("delegue", "adjoint")) {
         # Générer une biographie et un programme par défaut

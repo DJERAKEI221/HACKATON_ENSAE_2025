@@ -403,14 +403,14 @@ div(class = "container results-container",
       div(class = "results-filters floating-results",
       fluidRow(
           column(6,
-          # Cases à cocher pour filtrer les postes
-          uiOutput("result_position_checkboxes")
-        ),
+            # Cases à cocher pour filtrer les postes
+            uiOutput("result_position_checkboxes")
+          ),
           column(6, class = "d-flex align-items-center justify-content-end",
             downloadButton("downloadPV", "Télécharger le procès-verbal", 
               class = "btn-download-pv", icon = icon("file-pdf"))
           )
-        )
+      )
       ),
       
       div(class = "results-separator"),
@@ -421,10 +421,5 @@ div(class = "container results-container",
       
       uiOutput("results_details")
     )
-  ),
-  
-  # Bouton d'action flottant pour télécharger rapidement le PV
-  div(class = "floating-action", id = "quick_download_button", title = "Télécharger le PV",
-    icon("file-download")
   )
 ) 

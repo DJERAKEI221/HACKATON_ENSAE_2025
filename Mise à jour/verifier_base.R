@@ -11,7 +11,7 @@ pacman::p_load(
 )
 
 # Connexion à la base de données
-con <- dbConnect(RSQLite::SQLite(), "../data/elections.db")
+con <- dbConnect(RSQLite::SQLite(), "data/elections.db")
 
 cat("VERIFICATION DE LA BASE DE DONNEES\n")
 cat("--------------------------------\n\n")

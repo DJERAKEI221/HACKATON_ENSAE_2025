@@ -189,4 +189,53 @@ output$ideas_chart <- renderPlot({
     ) +
     labs(x = "Catégories", y = "Nombre de suggestions",
          title = "Répartition des suggestions par catégorie")
+})
+
+# Récupérer les idées populaires
+output$popular_ideas <- renderUI({
+  # Récupérer les 3 idées les plus récentes
+  popular_ideas <- tryCatch({
+    dbGetQuery(values$con, "
+      SELECT * FROM ideas 
+      ORDER BY timestamp DESC 
+      LIMIT 3
+    ")
+  }, error = function(e) {
+    return(data.frame())
+  })
+  
+  if(nrow(popular_ideas) == 0) {
+    return(div(class = "alert alert-info", 
+               "Aucune suggestion n'a encore été soumise."))
+  }
+  
+  # Mapper les catégories à des étiquettes et couleurs
+  category_info <- list(
+    "interface" = list(label = "Interface de vote", color = "primary", icon = "laptop"),
+    "organisation" = list(label = "Organisation des élections", color = "success", icon = "calendar"),
+    "candidats" = list(label = "Présentation des candidats", color = "info", icon = "video"),
+    "processus" = list(label = "Processus électoral", color = "warning", icon = "chart-pie"),
+    "autre" = list(label = "Autre suggestion", color = "secondary", icon = "lightbulb")
+  )
+  
+  # Créer les cartes pour chaque idée populaire
+  div(class = "row",
+    lapply(1:nrow(popular_ideas), function(i) {
+      idea <- popular_ideas[i,]
+      category <- category_info[[idea$category]]
+      
+      div(class = "col-md-4 mb-3",
+        div(class = "popular-idea p-3 h-100 border rounded",
+          div(class = "d-flex align-items-center mb-2",
+            icon(category$icon, class = sprintf("text-%s me-2", category$color)),
+            h5(class = "mb-0", idea$name)
+          ),
+          p(class = "text-muted small", idea$text),
+          div(class = "text-end",
+            span(class = sprintf("badge bg-%s", category$color), category$label)
+          )
+        )
+      )
+    })
+  )
 }) 
