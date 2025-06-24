@@ -1,15 +1,11 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
+
 
 # Application électorale AES-ENSAE 2025
 
 ## Présentation
 
-L'Application Électorale AES-ENSAE 2025 est une plateforme de vote en
-ligne innovante, développée dans le cadre du Hackathon ENSAE 2025. Ce
+L'Application électorale AES-ENSAE 2025 est une plateforme de vote en
+ligne, développée dans le cadre du Hackathon ENSAE 2025. Ce
 projet, réalisé en équipe, vise à moderniser le processus électoral de
 l'Association des Élèves et Stagiaires de l'ENSAE. Cette solution
 numérique, construite avec R Shiny, offre une expérience de vote
@@ -26,7 +22,7 @@ stagiaires
 
  - Faciliter l'accès aux informations sur les candidats
 
- - Fournir des résultats en temps réel - Moderniser l'expérience de vote
+ - Fournir des résultats en temps réel
 
 ## Fonctionnalités détaillées
 
@@ -38,7 +34,6 @@ stagiaires
     admin3) avec mot de passe
 -   **Vérification croisée** d'éligibilité et validation continue des
     sessions
--   **Protection anti-fraude** avec hachage cryptographique des votes
 -   **Gestion des droits** : Interface adaptée selon le type
     d'utilisateur (étudiant/admin)
 -   **Session sécurisée** avec timeout automatique et traçabilité
@@ -49,10 +44,8 @@ stagiaires
 ### 2. Interface de vote intuitive
 
 -   Navigation fluide entre les différentes catégories d'élections
--   Présentation claire des candidats avec photos et programmes
+-   Présentation des candidats avec photos et programmes
 -   Processus de vote simplifié en quelques clics
--   Confirmation visuelle des choix avec récapitulatif
--   Interface responsive adaptée à tous les appareils
 
 ### 3. Gestion des Candidats
 
@@ -60,8 +53,8 @@ stagiaires
 -   Nettoyage et validation automatique des données
 -   Mapping intelligent des postes avec correction orthographique
 -   Profils détaillés avec photos et biographies complètes
--   Programmes électoraux accessibles et structurés
--   Filtrage avancé par poste, catégorie et mot-clé
+-   Programmes électoraux accessibles
+-   Filtrage par poste, catégorie et mot-clé
 -   Recherche rapide et intelligente des candidats
 -   Gestion des caractères spéciaux et encodage UTF-8/Latin-1
 
@@ -76,29 +69,25 @@ stagiaires
 ### 5. Page d'administration complète
 
 -   **Zone sécurisée** : Accès exclusif aux administrateurs autorisés
-    avec vérification stricte
+    avec vérification
 -   **Tableau de bord centralisé** : Vue d'ensemble temps réel du
     système électoral
 -   **Export des données** : Téléchargement de tous les votes au format
     CSV pour analyse externe
 -   **Réinitialisation système** : Remise à zéro complète avec
     sauvegarde automatique
--   **Système d'annonces** : Diffusion de messages aux électeurs avec
-    priorités (normal/important/urgent)
--   **Monitoring avancé** : Suivi en temps réel des votes, participation
+-   **Monitoring** : Suivi en temps réel des votes, participation
     par classe/promotion
 -   **Gestion des utilisateurs** : Contrôle des accès et des droits
     utilisateur
--   **Journal des activités** : Traçabilité complète avec horodatage des
-    actions critiques
 -   **Interface adaptative** : Contenu différencié selon le type
     d'utilisateur (étudiant/admin)
 
 ### 6. Résultats et Statistiques
 
 -   Affichage en temps réel avec mise à jour automatique
--   Analyses détaillées par catégorie, poste et promotion
--   Export des données pour archivage
+-   Analyses par poste et promotion
+-   Export des données
 
 ### 8. **Assistant IA - sunuAES Chatbot**
 
@@ -106,32 +95,20 @@ stagiaires
     l'interface
 -   **Base de connaissances complète** : candidats, procédures de vote,
     résultats, AES
--   **Interface conversationnelle premium** avec animations fluides et
-    design moderne
 -   **Réponses contextuelles** automatiques basées sur l'analyse des
     mots-clés
 -   **Boutons d'action rapide** pour accès direct aux sections
     principales
--   **Indicateurs visuels** : animation de saisie, statut en ligne,
-    notifications
--   **Support multiplateforme** : adaptation automatique mobile/desktop
--   **Assistance 24/7** pour guider les électeurs pendant toute la
-    campagne
+
 
 #### Système d'authentification dual
 
--   **Double authentification** : Étudiants ET Administrateurs
+-   **Double authentification** : Étudiants et Administrateurs
 -   **Comptes administrateurs** sécurisés (admin1, admin2, admin3)
 -   **Vérification croisée** avec base étudiants pour les élèves
--   **Sessions sécurisées** avec timeout et hachage cryptographique
+-   **Sessions sécurisées** avec timeout
 -   **Gestion des droits** granulaire par type d'utilisateur
--   **Protection anti-fraude** avec validation continue
 
-#### Système d'annonces et notifications
-
--   Notifications push en temps réel
--   Système de gamification pour encourager la participation
--   Annonces administratives intégrées
 
 ## Structure du projet
 
@@ -173,14 +150,11 @@ Hackaton_ENSAE/
 │   ├── images/                     # Logos et illustrations
 │   └── js/                         # Scripts JavaScript
 ├── modules/                        # Modules réutilisables
-│   ├── notification_module.R       # Système de notifications
 │   ├── realtime_updates.R          # Mises à jour temps réel
 │   ├── gamification_module.R       # Éléments de gamification
-│   ├── announcement_system.R       # Système d'annonces
-│   ├── push_notification_service.R # Service push notifications
 │   └── chatbot_module.R            # Module Chatbot IA
 ├── sounds/                         # Sons et notifications audio
-├── Documentation/                  # Documentation technique
+├── Documentation/                  # Fichiers complémentaires 
 ├── global.R                        # Configuration globale avancée
 └── app.R                           # Point d'entrée application
 ```
@@ -280,23 +254,23 @@ identifiant;nom;prenom;poste;categorie
 
 **Fonctionnalités automatisées :**
 
-\- Validation automatique du format
+- Validation automatique du format
 
-\- Nettoyage des caractères spéciaux (Latin-ASCII)
+- Nettoyage des caractères spéciaux (Latin-ASCII)
 
-\- Mapping intelligent des noms de postes
+- Mapping intelligent des noms de postes
 
- - Détection et correction des erreurs courantes
+- Détection et correction des erreurs courantes
 
-\- Sauvegarde automatique avant mise à jour
+- Sauvegarde automatique avant mise à jour
 
-\- Rapport détaillé des opérations - Gestion des doublons et conflits
+- Rapport détaillé des opérations - Gestion des doublons et conflits
 
 #### 2. Chargement des Délégués
 
 **Procédure étape par étape :**
 
-1.  **Préparer le fichier** `delegues.csv` selon le format standard
+1\.  **Préparer le fichier** `delegues.csv` selon le format standard
 
 2\. **Placer le fichier** dans le dossier `data/`
 
@@ -336,7 +310,6 @@ source("Mise à jour/verifier_base.R")
 -   Collecte minimale des données (ID étudiant, nom, prénom uniquement)
 -   Anonymisation complète des votes
 -   Droit d'accès et de rectification
--   Conservation limitée des données personnelles
 
 ### Tableau de bord temps réel
 
@@ -344,15 +317,9 @@ source("Mise à jour/verifier_base.R")
 -   Heatmap de participation par classe/promotion
 -   Alertes automatiques de seuils de participation
 
-### Système de notifications
-
--   Notifications push pour encourager la participation
--   Rappels automatiques avant la fermeture des votes
--   Gamification avec badges et récompenses
-
 #### Interface Utilisateur et IA
 
--   **Design** : Interface moderne avec Bootstrap 5 et animations CSS3
+-   **Design** : Interface avec Bootstrap 5 et animations CSS3
 -   **Chatbot IA intégré** : Assistant conversationnel intelligent
     **sunuAES**
 -   **Responsive** : Adaptation parfaite mobile/tablette/desktop avec
@@ -366,8 +333,7 @@ source("Mise à jour/verifier_base.R")
 
 #### Sécurité et Administration
 
--   **Zone d'administration sécurisée** : Accès contrôlé avec
-    vérification stricte
+-   **Zone d'administration sécurisée** : Accès contrôlé
 -   **Gestion des droits granulaire** : Permissions spécifiques par type
     d'utilisateur
 -   **Export et sauvegarde** : Outils d'administration pour maintenance
@@ -380,20 +346,20 @@ Ce projet a été développé par :
 **Soma Diloma Ben Idriss**
 
 -   Élève Ingénieur Statisticien Économiste (ISE)
--   [somaben791\@gmail.com](mailto:somaben791@gmail.com){.email}
+-   [somaben791\@gmail.com](mailto:somaben791@gmail.com)
 -   (+221) 77 284 02 38
--   [LinkedIn](https://www.linkedin.com/in/ben-soma-82a85a1b1)
+-   [Profil LinkedIn](https://www.linkedin.com/in/ben-soma-82a85a1b1)
 
 **Djerakei Mistalengar**
 
 -   Élève Ingénieur Statisticien Économiste (ISE)
--   [yvesdjerake\@gmail.com](mailto:yvesdjerake@gmail.com){.email}
+-   [yvesdjerake\@gmail.com](mailto:yvesdjerake@gmail.com)
 -   (+221) 70 625 73 36
--   [LinkedIn](https://www.linkedin.com/in/djerake%C3%AF-mistalengar-086b3a21b)
+-   [Profil LinkedIn](https://www.linkedin.com/in/djerake%C3%AF-mistalengar-086b3a21b)
 
-## Calendrier Electoral 2025
+## Calendrier electoral 2025
 
-### Période de Vote Officielle
+### Période de vote officielle
 
 -   **Date** : 29 mai 2025
 -   **Ouverture** : 07h00 précises
@@ -410,15 +376,14 @@ Ce projet a été développé par :
 
 En dehors de la période officielle :
 
-\- Interface de vote inaccessible
+- Interface de vote inaccessible
 
-\- Tentatives de vote automatiquement bloquées\
-- Affichage du compte à rebours en temps réel - Notifications de rappel
-automatiques
+- Tentatives de vote automatiquement bloquées
+
 
 ## Licence 
 
-**© 2024-2025 Association des Élèves et Stagiaires de l'ENSAE
+**© 2025 Association des Élèves et Stagiaires de l'ENSAE
 (AES-ENSAE)**
 
 Ce projet est la propriété exclusive de l'AES-ENSAE. Tous droits
