@@ -11,9 +11,22 @@
 -   [Expérience utilisateur après connexion](#expérience-utilisateur-après-connexion)
 -   [Guide de maintenance](#guide-de-maintenance)
 -   [Sécurité et Sauvegarde](#sécurité-et-sauvegarde)
--   [Calendrier électoral 2025](#calendrier-electoral-2025)
+-   [Calendrier electoral 2025](#calendrier-electoral-2025)
 -   [Contribuer](#contribuer)
+-   [Contact](#contact)
 -   [Équipe de développement](#équipe-de-développement)
+-   [Licence](#licence)
+
+## Aide à la navigation dans le README
+
+Pour faciliter la navigation, vous pouvez utiliser des liens internes vers les différentes sections du document. Il suffit de cliquer sur un lien du sommaire ou d'utiliser la syntaxe suivante dans le texte :
+
+-   `[Fonctionnalités détaillées](#fonctionnalités-détaillées)`
+-   `[Guide de maintenance](#guide-de-maintenance)`
+-   `[Expérience utilisateur après connexion](#expérience-utilisateur-après-connexion)`
+-   `[Sécurité et Sauvegarde](#sécurité-et-sauvegarde)`
+
+Le texte entre parenthèses correspond au titre de la section, mis en minuscules, sans accents, et avec les espaces remplacés par des tirets.
 
 ## Présentation {#présentation}
 
