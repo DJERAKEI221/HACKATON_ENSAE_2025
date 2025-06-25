@@ -16,7 +16,7 @@ Notre plateforme vise à :
 
 -   Fournir des résultats en temps réel
 
-## Fonctionnalités détaillées {#fonctionnalités-détaillées}
+## Fonctionnalités détaillées
 
 ### 1. Système d'authentification dual sécurisé
 
