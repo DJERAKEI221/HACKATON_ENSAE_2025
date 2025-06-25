@@ -2,106 +2,93 @@
 
 ## Sommaire
 
--   [Présentation](#présentation)
+- [Présentation](#présentation)
+- [Objectifs](#objectifs)
+- [Fonctionnalités détaillées](#fonctionnalités-détaillées)
+- [Structure du projet](#structure-du-projet)
+- [Guide d'installation](#guide-dinstallation)
+- [Accès à la plateforme et procédure de vote](#accès-à-la-plateforme-et-procédure-de-vote)
+- [Expérience utilisateur après connexion](#expérience-utilisateur-après-connexion)
+- [Guide de maintenance](#guide-de-maintenance)
+- [Sécurité et Sauvegarde](#sécurité-et-sauvegarde)
+- [Calendrier electoral 2025](#calendrier-electoral-2025)
+- [Contribuer](#contribuer)
+- [Équipe de développement](#équipe-de-développement)
+- [Licence](#licence)
 
--   [Objectifs](#objectifs)
-
--   [Fonctionnalités détaillées](#fonctionnalités-détaillées)
-
--   [Structure du projet](#structure-du-projet)
-
--   [Guide d'installation](#guide-dinstallation)
-
--   [Accès à la plateforme et procédure de vote](#accès-à-la-plateforme-et-procédure-de-vote)
-
--   [Expérience utilisateur après connexion](#expérience-utilisateur-après-connexion)
-
--   [Guide de maintenance](#guide-de-maintenance)
-
--   [Sécurité et Sauvegarde](#sécurité-et-sauvegarde)
-
--   [Calendrier electoral 2025](#calendrier-electoral-2025)
-
--   [Contribuer](#contribuer)
-
--   [Équipe de développement](#équipe-de-développement)
-
-## Présentation {#présentation}
+## Présentation
 
 L'Application électorale AES-ENSAE 2025 est une plateforme de vote en ligne, développée dans le cadre du Hackathon ENSAE 2025. Ce projet, réalisé en équipe, vise à moderniser le processus électoral de l'Association des Élèves et Stagiaires de l'ENSAE. Cette solution numérique, construite avec R Shiny, offre une expérience de vote sécurisée et intuitive pour tous les membres de la communauté ENSAE.
 
-## Objectifs {#objectifs}
+## Objectifs
 
 Notre plateforme vise à :
 
--   Simplifier le processus électoral pour tous les étudiants et stagiaires
+- Simplifier le processus électoral pour tous les étudiants et stagiaires
+- Garantir la transparence et la sécurité des élections
+- Faciliter l'accès aux informations sur les candidats
+- Fournir des résultats en temps réel
 
--   Garantir la transparence et la sécurité des élections
-
--   Faciliter l'accès aux informations sur les candidats
-
--   Fournir des résultats en temps réel
-
-## Fonctionnalités détaillées {#fonctionnalités-détaillées}
+## Fonctionnalités détaillées
 
 ### 1. Système d'authentification dual sécurisé
 
--   **Connexion étudiants** : Authentification via numéro étudiant avec vérification automatique dans la base
--   **Connexion administrateurs** : Comptes sécurisés (admin1, admin2, admin3 par défaut, **mots de passe ajustables** selon les besoins de l'organisation)
--   **Vérification croisée** d'éligibilité et validation continue des sessions
--   **Gestion des droits** : Interface adaptée selon le type d'utilisateur (étudiant/admin)
--   **Session sécurisée** avec timeout automatique et traçabilité complète
--   **Détection automatique** du type d'utilisateur pour adaptation de l'interface
+- **Connexion étudiants** : Authentification via numéro étudiant avec vérification automatique dans la base
+- **Connexion administrateurs** : Comptes sécurisés (admin1, admin2, admin3 par défaut, **mots de passe ajustables** selon les besoins de l'organisation)
+- **Vérification croisée** d'éligibilité et validation continue des sessions
+- **Gestion des droits** : Interface adaptée selon le type d'utilisateur (étudiant/admin)
+- **Session sécurisée** avec timeout automatique et traçabilité complète
+- **Détection automatique** du type d'utilisateur pour adaptation de l'interface
 
 ### 2. Interface de vote intuitive
 
--   Navigation fluide entre les différentes catégories d'élections
--   Présentation des candidats avec photos et programmes
--   Processus de vote simplifié en quelques clics
+- Navigation fluide entre les différentes catégories d'élections
+- Présentation des candidats avec photos et programmes
+- Processus de vote simplifié en quelques clics
 
 ### 3. Gestion des candidats
 
--   Import automatique depuis fichier CSV (`candidats_bureau.csv`)
--   Nettoyage et validation automatique des données
--   Mapping intelligent des postes avec correction orthographique
--   Profils détaillés avec photos et biographies complètes
--   Programmes électoraux accessibles
--   Filtrage par poste, catégorie et mot-clé
--   Recherche rapide et intelligente des candidats
--   Gestion des caractères spéciaux et encodage UTF-8/Latin-1
+- Import automatique depuis fichier CSV (`candidats_bureau.csv`)
+- Nettoyage et validation automatique des données
+- Mapping intelligent des postes avec correction orthographique
+- Profils détaillés avec photos et biographies complètes
+- Programmes électoraux accessibles
+- Filtrage par poste, catégorie et mot-clé
+- Recherche rapide et intelligente des candidats
+- Gestion des caractères spéciaux et encodage UTF-8/Latin-1
 
 ### 4. Système de délégués de classe
 
--   Élections par classe et promotion avec gestion hiérarchique
--   Distinction entre délégués titulaires et suppléants
--   Interface spécialisée pour chaque type d'élection
--   Gestion des candidatures multiples avec validation
--   Import depuis `delegues.csv` avec validation automatique
+- Élections par classe et promotion avec gestion hiérarchique
+- Distinction entre délégués titulaires et suppléants
+- Interface spécialisée pour chaque type d'élection
+- Gestion des candidatures multiples avec validation
+- Import depuis `delegues.csv` avec validation automatique
 
 ### 5. Page d'administration complète
 
--   **Zone sécurisée** : Accès exclusif aux administrateurs autorisés avec vérification
--   **Tableau de bord centralisé** : Vue d'ensemble temps réel du système électoral
--   **Export des données** : Téléchargement de tous les votes au format CSV pour analyse externe
--   **Réinitialisation système** : Remise à zéro complète avec sauvegarde automatique
--   **Monitoring** : Suivi en temps réel des votes, participation par classe/promotion
--   **Gestion des utilisateurs** : Contrôle des accès et des droits utilisateur
--   **Interface adaptative** : Contenu différencié selon le type d'utilisateur (étudiant/admin)
+- **Zone sécurisée** : Accès exclusif aux administrateurs autorisés avec vérification
+- **Tableau de bord centralisé** : Vue d'ensemble temps réel du système électoral
+- **Export des données** : Téléchargement de tous les votes au format CSV pour analyse externe
+- **Réinitialisation système** : Remise à zéro complète avec sauvegarde automatique
+- **Monitoring** : Suivi en temps réel des votes, participation par classe/promotion
+- **Gestion des utilisateurs** : Contrôle des accès et des droits utilisateur
+- **Interface adaptative** : Contenu différencié selon le type d'utilisateur (étudiant/admin)
 
 ### 6. Résultats et Statistiques
 
--   Affichage en temps réel avec mise à jour automatique
--   Analyses par poste et promotion
--   Export des données
+- Affichage en temps réel avec mise à jour automatique
+- Analyses par poste et promotion
+- Export des données
 
 ### 8. **Assistant IA - sunuAES Chatbot**
 
--   **Chatbot électoral intelligent** intégré directement dans l'interface
--   **Base de connaissances complète** : candidats, procédures de vote, résultats, AES
--   **Réponses contextuelles** automatiques basées sur l'analyse des mots-clés
--   **Boutons d'action rapide** pour accès direct aux sections principales
+- **Chatbot électoral intelligent** intégré directement dans l'interface
+- **Base de connaissances complète** : candidats, procédures de vote, résultats, AES
+- **Réponses contextuelles** automatiques basées sur l'analyse des mots-clés
+- **Boutons d'action rapide** pour accès direct aux sections principales
 
-## Structure du projet {#structure-du-projet}
+## Structure du projet
 
 ```         
 Hackaton_ENSAE/
@@ -150,14 +137,14 @@ Hackaton_ENSAE/
 └── app.R                           # Point d'entrée application
 ```
 
-## Guide d'Installation {#guide-dinstallation}
+## Guide d'Installation
 
 ### Prérequis système
 
--   **R** (version 4.3.1 ou supérieure) - [Télécharger R](https://cran.r-project.org/)
--   **RStudio** (recommandé pour le développement) - [Télécharger RStudio](https://posit.co/products/open-source/rstudio/)
--   **Navigateur web moderne** (Chrome recommandé, Firefox, Edge)
--   **Windows PowerShell** (pour les scripts de maintenance)
+- **R** (version 4.3.1 ou supérieure) - [Télécharger R](https://cran.r-project.org/)
+- **RStudio** (recommandé pour le développement) - [Télécharger RStudio](https://posit.co/products/open-source/rstudio/)
+- **Navigateur web moderne** (Chrome recommandé, Firefox, Edge)
+- **Windows PowerShell** (pour les scripts de maintenance)
 
 ### Installation automatique des dépendances
 
@@ -202,7 +189,7 @@ Le projet utilise le gestionnaire `pacman` pour une installation automatique de 
 shiny::runApp()
 ```
 
-## Accès à la plateforme et procédure de vote {#accès-à-la-plateforme-et-procédure-de-vote}
+## Accès à la plateforme et procédure de vote
 
 ### Comment accéder à la plateforme ?
 
@@ -219,7 +206,7 @@ shiny::runApp()
     -   Pour plus de détails sur la sécurité et la gestion des accès, voir la section [Fonctionnalités détaillées](#fonctionnalités-détaillées).
     -   Cliquez sur l'onglet **"Votes AES"** ou **"Scrutin des classes"**.
 
-### Expérience utilisateur après connexion {#expérience-utilisateur-après-connexion}
+### Expérience utilisateur après connexion
 
 Après authentification, l'interface s'adapte automatiquement selon votre profil :
 
@@ -259,7 +246,7 @@ L'interface masque automatiquement les fonctionnalités non autorisées selon le
 
 **Astuce :** Toutes les étapes sont guidées à l'écran, avec des messages d'aide et des alertes en cas d'erreur ou de tentative hors période.
 
-## Guide de maintenance {#guide-de-maintenance}
+## Guide de maintenance
 
 #### 1. Chargement des candidats
 
@@ -347,7 +334,7 @@ source("Mise à jour/verifier_base.R")
 # - Recommandations de maintenance
 ```
 
-### Sécurité et Sauvegarde {#sécurité-et-sauvegarde}
+### Sécurité et Sauvegarde
 
 #### Conformité au Règlement Général sur la Protection des Données (RGPD)
 
@@ -373,7 +360,7 @@ source("Mise à jour/verifier_base.R")
 -   **Gestion des droits granulaire** : Permissions spécifiques par type d'utilisateur
 -   **Export et sauvegarde** : Outils d'administration pour maintenance système
 
-## Calendrier electoral 2025 {#calendrier-electoral-2025}
+## Calendrier electoral 2025
 
 ### Période de vote officielle
 
@@ -392,7 +379,7 @@ En dehors de la période officielle :
 
 -   Tentatives de vote automatiquement bloquées
 
-## Licence {#licence}
+## Licence
 
 **© 2025 Association des Élèves et Stagiaires de l'ENSAE (AES-ENSAE)**
 
@@ -400,7 +387,7 @@ Ce projet est la propriété exclusive de l'AES-ENSAE. Tous droits réservés.
 
 ------------------------------------------------------------------------
 
-## Contribuer {#contribuer}
+## Contribuer
 
 Vous souhaitez améliorer cette application ou signaler un bug ?
 
@@ -412,7 +399,7 @@ Pour toute question, suggestion ou demande de support, contactez l'équipe de d�
 
 ------------------------------------------------------------------------
 
-## Équipe de développement {#équipe-de-développement}
+## Équipe de développement
 
 Ce projet a été développé par :
 
