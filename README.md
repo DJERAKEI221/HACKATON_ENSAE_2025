@@ -1,10 +1,27 @@
 # Application électorale AES-ENSAE 2025
 
-## Présentation
+## Sommaire
+
+-   [Présentation](#présentation)
+-   [Objectifs](#objectifs)
+-   [Fonctionnalités détaillées](#fonctionnalités-détaillées)
+-   [Structure du projet](#structure-du-projet)
+-   [Guide d'installation](#guide-dinstallation)
+-   [Accès à la plateforme et procédure de vote](#accès-à-la-plateforme-et-procédure-de-vote)
+-   [Expérience utilisateur après connexion](#expérience-utilisateur-après-connexion)
+-   [Guide de maintenance](#guide-de-maintenance)
+-   [Sécurité et sauvegarde](#sécurité-et-sauvegarde)
+-   [Calendrier électoral 2025](#calendrier-electoral-2025)
+-   [Contribuer](#contribuer)
+-   [Contact](#contact)
+-   [Équipe de développement](#équipe-de-développement)
+-   [Licence](#licence)
+
+## Présentation {#présentation}
 
 L'Application électorale AES-ENSAE 2025 est une plateforme de vote en ligne, développée dans le cadre du Hackathon ENSAE 2025. Ce projet, réalisé en équipe, vise à moderniser le processus électoral de l'Association des Élèves et Stagiaires de l'ENSAE. Cette solution numérique, construite avec R Shiny, offre une expérience de vote sécurisée et intuitive pour tous les membres de la communauté ENSAE.
 
-## Objectifs
+## Objectifs {#objectifs}
 
 Notre plateforme vise à :
 
@@ -16,7 +33,7 @@ Notre plateforme vise à :
 
 -   Fournir des résultats en temps réel
 
-## Fonctionnalités détaillées
+## Fonctionnalités détaillées {#fonctionnalités-détaillées}
 
 ### 1. Système d'authentification dual sécurisé
 
@@ -75,7 +92,7 @@ Notre plateforme vise à :
 -   **Réponses contextuelles** automatiques basées sur l'analyse des mots-clés
 -   **Boutons d'action rapide** pour accès direct aux sections principales
 
-## Structure du projet
+## Structure du projet {#structure-du-projet}
 
 ```         
 Hackaton_ENSAE/
@@ -124,7 +141,7 @@ Hackaton_ENSAE/
 └── app.R                           # Point d'entrée application
 ```
 
-## Guide d'Installation
+## Guide d'Installation {#guide-dinstallation}
 
 ### Prérequis système
 
@@ -176,7 +193,7 @@ Le projet utilise le gestionnaire `pacman` pour une installation automatique de 
 shiny::runApp()
 ```
 
-## Accès à la plateforme et procédure de vote
+## Accès à la plateforme et procédure de vote {#accès-à-la-plateforme-et-procédure-de-vote}
 
 ### Comment accéder à la plateforme ?
 
@@ -193,7 +210,7 @@ shiny::runApp()
     -   Pour plus de détails sur la sécurité et la gestion des accès, voir la section [Fonctionnalités détaillées](#fonctionnalités-détaillées).
     -   Cliquez sur l'onglet **"Votes AES"** ou **"Scrutin des classes"**.
 
-### Expérience utilisateur après connexion
+### Expérience utilisateur après connexion {#expérience-utilisateur-après-connexion}
 
 Après authentification, l'interface s'adapte automatiquement selon votre profil :
 
@@ -233,7 +250,7 @@ L'interface masque automatiquement les fonctionnalités non autorisées selon le
 
 **Astuce :** Toutes les étapes sont guidées à l'écran, avec des messages d'aide et des alertes en cas d'erreur ou de tentative hors période.
 
-## Guide de maintenance
+## Guide de maintenance {#guide-de-maintenance}
 
 #### 1. Chargement des candidats
 
@@ -321,7 +338,7 @@ source("Mise à jour/verifier_base.R")
 # - Recommandations de maintenance
 ```
 
-### Sécurité et Sauvegarde
+### Sécurité et Sauvegarde {#sécurité-et-sauvegarde}
 
 #### Conformité au Règlement Général sur la Protection des Données (RGPD)
 
@@ -347,7 +364,7 @@ source("Mise à jour/verifier_base.R")
 -   **Gestion des droits granulaire** : Permissions spécifiques par type d'utilisateur
 -   **Export et sauvegarde** : Outils d'administration pour maintenance système
 
-## Calendrier electoral 2025
+## Calendrier electoral 2025 {#calendrier-electoral-2025}
 
 ### Période de vote officielle
 
@@ -366,7 +383,7 @@ En dehors de la période officielle :
 
 -   Tentatives de vote automatiquement bloquées
 
-## Licence
+## Licence {#licence}
 
 **© 2025 Association des Élèves et Stagiaires de l'ENSAE (AES-ENSAE)**
 
@@ -374,7 +391,7 @@ Ce projet est la propriété exclusive de l'AES-ENSAE. Tous droits réservés.
 
 ------------------------------------------------------------------------
 
-## Contribuer
+## Contribuer {#contribuer}
 
 Vous souhaitez améliorer cette application ou signaler un bug ?
 
@@ -386,7 +403,7 @@ Pour toute question, suggestion ou demande de support, contactez l'équipe de d�
 
 ------------------------------------------------------------------------
 
-## Équipe de développement
+## Équipe de développement {#équipe-de-développement}
 
 Ce projet a été développé par :
 
