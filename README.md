@@ -1,45 +1,31 @@
-
-
 # Application électorale AES-ENSAE 2025
 
 ## Présentation
 
-L'Application électorale AES-ENSAE 2025 est une plateforme de vote en
-ligne, développée dans le cadre du Hackathon ENSAE 2025. Ce
-projet, réalisé en équipe, vise à moderniser le processus électoral de
-l'Association des Élèves et Stagiaires de l'ENSAE. Cette solution
-numérique, construite avec R Shiny, offre une expérience de vote
-sécurisée et intuitive pour tous les membres de la communauté ENSAE.
+L'Application électorale AES-ENSAE 2025 est une plateforme de vote en ligne, développée dans le cadre du Hackathon ENSAE 2025. Ce projet, réalisé en équipe, vise à moderniser le processus électoral de l'Association des Élèves et Stagiaires de l'ENSAE. Cette solution numérique, construite avec R Shiny, offre une expérience de vote sécurisée et intuitive pour tous les membres de la communauté ENSAE.
 
 ## Objectifs
 
 Notre plateforme vise à :
 
- - Simplifier le processus électoral pour tous les étudiants et
-stagiaires
+-   Simplifier le processus électoral pour tous les étudiants et stagiaires
 
- - Garantir la transparence et la sécurité des élections
+-   Garantir la transparence et la sécurité des élections
 
- - Faciliter l'accès aux informations sur les candidats
+-   Faciliter l'accès aux informations sur les candidats
 
- - Fournir des résultats en temps réel
+-   Fournir des résultats en temps réel
 
-## Fonctionnalités détaillées
+## Fonctionnalités détaillées {#fonctionnalités-détaillées}
 
-### 1. Système d'Authentification dual sécurisé
+### 1. Système d'authentification dual sécurisé
 
--   **Connexion étudiants** : Authentification via numéro étudiant avec
-    vérification automatique dans la base
--   **Connexion administrateurs** : Comptes sécurisés (admin1, admin2,
-    admin3) avec mot de passe
--   **Vérification croisée** d'éligibilité et validation continue des
-    sessions
--   **Gestion des droits** : Interface adaptée selon le type
-    d'utilisateur (étudiant/admin)
--   **Session sécurisée** avec timeout automatique et traçabilité
-    complète
--   **Détection automatique** du type d'utilisateur pour adaptation de
-    l'interface
+-   **Connexion étudiants** : Authentification via numéro étudiant avec vérification automatique dans la base
+-   **Connexion administrateurs** : Comptes sécurisés (admin1, admin2, admin3 par défaut, **mots de passe ajustables** selon les besoins de l'organisation)
+-   **Vérification croisée** d'éligibilité et validation continue des sessions
+-   **Gestion des droits** : Interface adaptée selon le type d'utilisateur (étudiant/admin)
+-   **Session sécurisée** avec timeout automatique et traçabilité complète
+-   **Détection automatique** du type d'utilisateur pour adaptation de l'interface
 
 ### 2. Interface de vote intuitive
 
@@ -47,7 +33,7 @@ stagiaires
 -   Présentation des candidats avec photos et programmes
 -   Processus de vote simplifié en quelques clics
 
-### 3. Gestion des Candidats
+### 3. Gestion des candidats
 
 -   Import automatique depuis fichier CSV (`candidats_bureau.csv`)
 -   Nettoyage et validation automatique des données
@@ -68,20 +54,13 @@ stagiaires
 
 ### 5. Page d'administration complète
 
--   **Zone sécurisée** : Accès exclusif aux administrateurs autorisés
-    avec vérification
--   **Tableau de bord centralisé** : Vue d'ensemble temps réel du
-    système électoral
--   **Export des données** : Téléchargement de tous les votes au format
-    CSV pour analyse externe
--   **Réinitialisation système** : Remise à zéro complète avec
-    sauvegarde automatique
--   **Monitoring** : Suivi en temps réel des votes, participation
-    par classe/promotion
--   **Gestion des utilisateurs** : Contrôle des accès et des droits
-    utilisateur
--   **Interface adaptative** : Contenu différencié selon le type
-    d'utilisateur (étudiant/admin)
+-   **Zone sécurisée** : Accès exclusif aux administrateurs autorisés avec vérification
+-   **Tableau de bord centralisé** : Vue d'ensemble temps réel du système électoral
+-   **Export des données** : Téléchargement de tous les votes au format CSV pour analyse externe
+-   **Réinitialisation système** : Remise à zéro complète avec sauvegarde automatique
+-   **Monitoring** : Suivi en temps réel des votes, participation par classe/promotion
+-   **Gestion des utilisateurs** : Contrôle des accès et des droits utilisateur
+-   **Interface adaptative** : Contenu différencié selon le type d'utilisateur (étudiant/admin)
 
 ### 6. Résultats et Statistiques
 
@@ -91,24 +70,10 @@ stagiaires
 
 ### 8. **Assistant IA - sunuAES Chatbot**
 
--   **Chatbot électoral intelligent** intégré directement dans
-    l'interface
--   **Base de connaissances complète** : candidats, procédures de vote,
-    résultats, AES
--   **Réponses contextuelles** automatiques basées sur l'analyse des
-    mots-clés
--   **Boutons d'action rapide** pour accès direct aux sections
-    principales
-
-
-#### Système d'authentification dual
-
--   **Double authentification** : Étudiants et Administrateurs
--   **Comptes administrateurs** sécurisés (admin1, admin2, admin3)
--   **Vérification croisée** avec base étudiants pour les élèves
--   **Sessions sécurisées** avec timeout
--   **Gestion des droits** granulaire par type d'utilisateur
-
+-   **Chatbot électoral intelligent** intégré directement dans l'interface
+-   **Base de connaissances complète** : candidats, procédures de vote, résultats, AES
+-   **Réponses contextuelles** automatiques basées sur l'analyse des mots-clés
+-   **Boutons d'action rapide** pour accès direct aux sections principales
 
 ## Structure du projet
 
@@ -163,17 +128,14 @@ Hackaton_ENSAE/
 
 ### Prérequis système
 
--   **R** (version 4.3.1 ou supérieure) - [Télécharger
-    R](https://cran.r-project.org/)
--   **RStudio** (recommandé pour le développement) - [Télécharger
-    RStudio](https://posit.co/products/open-source/rstudio/)
+-   **R** (version 4.3.1 ou supérieure) - [Télécharger R](https://cran.r-project.org/)
+-   **RStudio** (recommandé pour le développement) - [Télécharger RStudio](https://posit.co/products/open-source/rstudio/)
 -   **Navigateur web moderne** (Chrome recommandé, Firefox, Edge)
 -   **Windows PowerShell** (pour les scripts de maintenance)
 
 ### Installation automatique des dépendances
 
-Le projet utilise le gestionnaire `pacman` pour une installation
-automatique de toutes les dépendances :
+Le projet utilise le gestionnaire `pacman` pour une installation automatique de toutes les dépendances :
 
 ``` r
 # L'installation se fait automatiquement au premier lancement
@@ -214,24 +176,80 @@ automatique de toutes les dépendances :
 shiny::runApp()
 ```
 
+## Accès à la plateforme et procédure de vote
+
+### Comment accéder à la plateforme ?
+
+1.  **Accès direct par lien web**
+    -   Rendez-vous sur la plateforme à l'adresse suivante : <https://djerakei.shinyapps.io/Hackaton_ENSAE/> *(Ceci est le lien officiel d'accès à la plateforme de vote)*
+    -   L'application s'ouvre automatiquement dans votre navigateur.
+2.  **Page d'accueil**
+    -   Vous arrivez sur la page d'accueil de la plateforme AES-ENSAE.
+    -   Naviguez via la barre de menu en haut de l'interface.
+3.  **Authentification**
+    -   Une interface d'authentification s'affiche automatiquement selon votre profil :
+        -   **Étudiants** : Saisissez votre numéro étudiant pour accéder au vote.
+        -   **Administrateurs** : Connectez-vous avec votre identifiant et mot de passe administrateur.
+    -   Pour plus de détails sur la sécurité et la gestion des accès, voir la section [Fonctionnalités détaillées](#fonctionnalités-détaillées).
+    -   Cliquez sur l'onglet **"Votes AES"** ou **"Scrutin des classes"**.
+
+### Expérience utilisateur après connexion
+
+Après authentification, l'interface s'adapte automatiquement selon votre profil :
+
+-   **Étudiant** :
+    -   Accès aux sections :
+        -   Accueil
+        -   Scrutin des classes
+        -   Candidats au scrutin AES
+        -   Votes AES
+        -   Statistiques
+        -   Résultats
+    -   **Restrictions** :
+        -   Pas d'accès à la section Administration
+        -   Impossible de modifier les paramètres du système ou d'exporter les données
+        -   Accès uniquement à ses propres informations et au processus de vote
+-   **Administrateur** :
+    -   Accès à toutes les sections, y compris :
+        -   Administration (gestion des utilisateurs, annonces, export des votes, réinitialisation du système)
+    -   **Attention** : Les actions d'administration sont strictement réservées aux comptes autorisés et nécessitent une authentification renforcée.
+    -   **Restriction**: Un administrateur ne peut pas voter
+
+L'interface masque automatiquement les fonctionnalités non autorisées selon le type d'utilisateur connecté.
+
+### Comment voter ?
+
+1.  **Accéder à l'onglet "Votes AES"**
+    -   Sélectionnez l'onglet **"Votes AES"** dans la barre de navigation.
+2.  **Procédure de vote simplifiée**
+    -   **Étape 1 :** Sélectionnez un poste parmi la liste proposée.
+    -   **Étape 2 :** Consultez les profils et programmes des candidats.
+    -   **Étape 3 :** Cliquez sur le bouton de vote pour confirmer votre choix.
+    -   Un message de confirmation s'affiche.
+    -   Votre vote est **anonyme** et **sécurisé**.
+3.  **Restrictions**
+    -   Le vote n'est accessible que pendant la période officielle définie dans le fichier `global.R`.
+    -   En dehors de cette période, l'interface de vote est automatiquement bloquée.
+
+**Astuce :** Toutes les étapes sont guidées à l'écran, avec des messages d'aide et des alertes en cas d'erreur ou de tentative hors période.
+
 ## Guide de maintenance
 
 #### 1. Chargement des candidats
 
 **Procédure étape par étape :**
 
-- **Préparer le fichier** `candidats_bureau.csv` selon le format
-standard
+-   **Préparer le fichier** `candidats_bureau.csv` selon le format standard
 
-- **Placer le fichier** dans le dossier `data/`
+-   **Placer le fichier** dans le dossier `data/`
 
-- **Exécuter** `Mise à jour/charger_candidats_csv.R`
+-   **Exécuter** `Mise à jour/charger_candidats_csv.R`
 
-- **Vérification automatique** du format
+-   **Vérification automatique** du format
 
-- **Nettoyage des données**
+-   **Nettoyage des données**
 
-- **Import dans la base de données**
+-   **Import dans la base de données**
 
 **Méthodes d'exécution :**
 
@@ -254,31 +272,31 @@ identifiant;nom;prenom;poste;categorie
 
 **Fonctionnalités automatisées :**
 
-- Validation automatique du format
+-   Validation automatique du format
 
-- Nettoyage des caractères spéciaux (Latin-ASCII)
+-   Nettoyage des caractères spéciaux (Latin-ASCII)
 
-- Mapping intelligent des noms de postes
+-   Mapping intelligent des noms de postes
 
-- Détection et correction des erreurs courantes
+-   Détection et correction des erreurs courantes
 
-- Sauvegarde automatique avant mise à jour
+-   Sauvegarde automatique avant mise à jour
 
-- Rapport détaillé des opérations - Gestion des doublons et conflits
+-   Rapport détaillé des opérations - Gestion des doublons et conflits
 
 #### 2. Chargement des délégués
 
 **Procédure étape par étape :**
 
--  **Préparer le fichier** `delegues.csv` selon le format standard
+-   **Préparer le fichier** `delegues.csv` selon le format standard
 
-- **Placer le fichier** dans le dossier `data/`
+-   **Placer le fichier** dans le dossier `data/`
 
-- **Exécuter** `Mise à jour/charger_delegues_csv.R`
+-   **Exécuter** `Mise à jour/charger_delegues_csv.R`
 
-- **Validation des données**
+-   **Validation des données**
 
-- **Mise à jour de la base**
+-   **Mise à jour de la base**
 
 **Méthodes d'exécution :**
 
@@ -319,38 +337,15 @@ source("Mise à jour/verifier_base.R")
 #### Interface Utilisateur et IA
 
 -   **Design** : Interface avec Bootstrap 5 et animations CSS3
--   **Chatbot IA intégré** : Assistant conversationnel intelligent
-    **sunuAES**
--   **Accessibilité** : Support des lecteurs d'écran, navigation clavier
-    et assistance IA
--   **Authentification duale** : Interface adaptée automatiquement
-    (étudiant/admin)
+-   **Chatbot IA intégré** : Assistant conversationnel intelligent **sunuAES**
+-   **Accessibilité** : Support des lecteurs d'écran, navigation clavier et assistance IA
+-   **Authentification duale** : Interface adaptée automatiquement (étudiant/admin)
 
 #### Sécurité et Administration
 
 -   **Zone d'administration sécurisée** : Accès contrôlé
--   **Gestion des droits granulaire** : Permissions spécifiques par type
-    d'utilisateur
--   **Export et sauvegarde** : Outils d'administration pour maintenance
-    système
-
-## Équipe de développement
-
-Ce projet a été développé par :
-
-**Soma Diloma Ben Idriss**
-
--   Élève Ingénieur Statisticien Économiste (ISE)
--   [somaben791\@gmail.com](mailto:somaben791@gmail.com)
--   (+221) 77 284 02 38
--   [Profil LinkedIn](https://www.linkedin.com/in/ben-soma-82a85a1b1)
-
-**Djerakei Mistalengar**
-
--   Élève Ingénieur Statisticien Économiste (ISE)
--   [yvesdjerake\@gmail.com](mailto:yvesdjerake@gmail.com)
--   (+221) 70 625 73 36
--   [Profil LinkedIn](https://www.linkedin.com/in/djerake%C3%AF-mistalengar-086b3a21b)
+-   **Gestion des droits granulaire** : Permissions spécifiques par type d'utilisateur
+-   **Export et sauvegarde** : Outils d'administration pour maintenance système
 
 ## Calendrier electoral 2025
 
@@ -361,27 +356,50 @@ Ce projet a été développé par :
 -   **Fermeture** : 23h59 précises
 -   **Durée totale** : 17 heures de vote ininterrompu
 
-> **Note importante** : La période de vote est entièrement
-> **configurable et ajustable** en modifiant simplement les paramètres
-> dans le fichier `global.R`. Les dates et heures mentionnées ci-dessus
-> sont des exemples et peuvent être facilement adaptées selon les
-> besoins spécifiques de chaque élection.
+> **Note importante** : La période de vote est entièrement **configurable et ajustable** en modifiant simplement les paramètres dans le fichier `global.R`. Les dates et heures mentionnées ci-dessus sont des exemples et peuvent être facilement adaptées selon les besoins spécifiques de chaque élection.
 
 ### Restrictions temporelles
 
 En dehors de la période officielle :
 
-- Interface de vote inaccessible
+-   Interface de vote inaccessible
 
-- Tentatives de vote automatiquement bloquées
+-   Tentatives de vote automatiquement bloquées
 
+## Licence
 
-## Licence 
+**© 2025 Association des Élèves et Stagiaires de l'ENSAE (AES-ENSAE)**
 
-**© 2025 Association des Élèves et Stagiaires de l'ENSAE
-(AES-ENSAE)**
-
-Ce projet est la propriété exclusive de l'AES-ENSAE. Tous droits
-réservés.
+Ce projet est la propriété exclusive de l'AES-ENSAE. Tous droits réservés.
 
 ------------------------------------------------------------------------
+
+## Contribuer
+
+Vous souhaitez améliorer cette application ou signaler un bug ?
+
+-   Proposez une **pull request** ou ouvrez une **issue** sur le dépôt GitHub du projet (ou contactez directement les responsables ci-dessous).
+-   Merci de détailler votre suggestion ou problème pour faciliter la prise en compte.
+-   Toute contribution (code, documentation, idées) est la bienvenue !
+
+Pour toute question, suggestion ou demande de support, contactez l'équipe de développement.
+
+------------------------------------------------------------------------
+
+## Équipe de développement
+
+Ce projet a été développé par :
+
+**Soma Diloma Ben Idriss**
+
+-   Élève Ingénieur Statisticien Économiste (ISE)
+-   [somaben791\@gmail.com](mailto:somaben791@gmail.com)
+-   Téléphone : (+221) 77 284 02 38
+-   [Profil LinkedIn](https://www.linkedin.com/in/ben-soma-82a85a1b1)
+
+**Djerakei Mistalengar**
+
+-   Élève Ingénieur Statisticien Économiste (ISE)
+-   [yvesdjerake\@gmail.com](mailto:yvesdjerake@gmail.com)
+-   Téléphone : (+221) 70 625 73 36
+-   [Profil LinkedIn](https://www.linkedin.com/in/djerake%C3%AF-mistalengar-086b3a21b)
